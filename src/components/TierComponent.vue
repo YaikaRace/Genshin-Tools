@@ -9,6 +9,7 @@
       put: ['characters', 'weapons', 'tier'],
     }"
     class="min-h-32 flex flex-wrap"
+    chosen-class="chosen"
   >
     <template #item="{ element }">
       <div class="hover:cursor-move">
@@ -21,6 +22,12 @@
     </template>
   </draggable>
 </template>
+
+<style lang="postcss">
+.chosen {
+  @apply opacity-50;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent } from "vue";
