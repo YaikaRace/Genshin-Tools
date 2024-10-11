@@ -7,15 +7,24 @@
       name: 'tier',
       pull: true,
       put: ['characters', 'weapons', 'tier'],
+      accepts: ['character', 'weapon'],
     }"
     class="min-h-32 flex flex-wrap"
     chosen-class="chosen"
+    :move="onMove"
   >
     <template #item="{ element }">
-      <div class="hover:cursor-move">
+      <div class="hover:cursor-move" v-if="element.type == 'character'">
         <img
-          :src="`https://genshin.jmp.blue/characters/${element}/icon`"
-          :alt="`${element}-icon`"
+          :src="`https://genshin.jmp.blue/characters/${element.name}/icon`"
+          :alt="`${element.name}-icon`"
+          class="inline h-32"
+        />
+      </div>
+      <div class="hover:cursor-move" v-else>
+        <img
+          :src="`https://genshin.jmp.blue/weapons/${element.name}/icon`"
+          :alt="`${element.name}-icon`"
           class="inline h-32"
         />
       </div>
@@ -48,6 +57,13 @@ export default defineComponent({
     return {
       list: [],
     };
+  },
+  methods: {
+    onMove(evt: any) {
+      return evt.relatedContext.component.$attrs.group.accepts.includes(
+        evt.draggedContext.element.type
+      );
+    },
   },
 });
 </script>

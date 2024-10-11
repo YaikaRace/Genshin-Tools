@@ -35,13 +35,17 @@
         class="border-2 border-white my-6"
       />
     </div>
-    <characters-draggable />
+    <div class="grid grid-cols-2">
+      <characters-draggable />
+      <weapons-draggable />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import CharactersDraggable from "./components/CharactersDraggable.vue";
+import WeaponsDraggable from "./components/WeaponsDraggable.vue";
 import TierComponent from "./components/TierComponent.vue";
 import ClickToEdit from "./components/ClickToEdit.vue";
 import domtoimage from "dom-to-image-more";
@@ -52,6 +56,7 @@ export default defineComponent({
     CharactersDraggable,
     TierComponent,
     ClickToEdit,
+    WeaponsDraggable,
   },
   data() {
     return {
