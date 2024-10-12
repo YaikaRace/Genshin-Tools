@@ -58,6 +58,7 @@ export default defineComponent({
     }
   },
   methods: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onMove(evt: any) {
       return evt.relatedContext.component.$attrs.group.accepts.includes(
         evt.draggedContext.element.type

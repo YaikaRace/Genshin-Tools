@@ -7,12 +7,12 @@
       @blur="
         valueLocal = $event.target.value;
         edit = false;
-        $emit('input', valueLocal);
+        $emit('textChanged', valueLocal);
       "
       @keyup.enter="
         valueLocal = $event.target.value;
         edit = false;
-        $emit('input', valueLocal);
+        $emit('textChanged', valueLocal);
       "
       v-focus="edit"
     />

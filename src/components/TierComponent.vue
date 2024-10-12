@@ -52,13 +52,18 @@ export default defineComponent({
       type: String,
       default: "S",
     },
+    list: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
   data() {
-    return {
-      list: [],
-    };
+    return {};
   },
   methods: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onMove(evt: any) {
       return evt.relatedContext.component.$attrs.group.accepts.includes(
         evt.draggedContext.element.type
