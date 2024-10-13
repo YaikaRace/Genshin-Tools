@@ -11,6 +11,8 @@
     }"
     class="min-h-32 flex flex-wrap"
     chosen-class="chosen"
+    delay="150"
+    delay-on-touch-only="true"
     :move="onMove"
   >
     <template #item="{ element }">
@@ -18,14 +20,14 @@
         <img
           :src="`https://genshin.jmp.blue/characters/${element.name}/icon`"
           :alt="`${element.name}-icon`"
-          class="inline h-32"
+          class="inline h-32 max-w-32 min-w-32"
         />
       </div>
       <div class="hover:cursor-move" v-else>
         <img
           :src="`https://genshin.jmp.blue/weapons/${element.name}/icon`"
           :alt="`${element.name}-icon`"
-          class="inline h-32"
+          class="inline h-32 max-w-32 min-w-32"
         />
       </div>
     </template>
