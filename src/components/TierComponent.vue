@@ -18,15 +18,15 @@
     <template #item="{ element }">
       <div class="hover:cursor-move" v-if="element.type == 'character'">
         <img
-          :src="`https://genshin.jmp.blue/characters/${element.name}/icon`"
-          :alt="`${element.name}-icon`"
+          :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
+          :alt="`${element.id.toLowerCase()}-icon`"
           class="inline h-32 max-w-32 min-w-32"
         />
       </div>
       <div class="hover:cursor-move" v-else>
         <img
-          :src="`https://genshin.jmp.blue/weapons/${element.name}/icon`"
-          :alt="`${element.name}-icon`"
+          :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
+          :alt="`${element.id.toLowerCase()}-icon`"
           class="inline h-32 max-w-32 min-w-32"
         />
       </div>

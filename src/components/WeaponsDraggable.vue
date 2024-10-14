@@ -16,8 +16,8 @@
       >
         <!-- <div>{{ element }}</div> -->
         <img
-          :src="`https://genshin.jmp.blue/weapons/${element.name}/icon`"
-          :alt="`${element.name}-icon`"
+          :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
+          :alt="`${element.id.toLowerCase()}-icon`"
           class="h-32 w-32 max-w-32 max-h-32"
         />
         <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
@@ -49,11 +49,34 @@ export default defineComponent({
   async mounted() {
     const data = await fetch("https://genshin.jmp.blue/weapons/");
     const json = await data.json();
+    const weaponPromises = [];
     for (const weapon of json) {
-      const weaponObj = {
+      weaponPromises.push(fetch(`https://genshin.jmp.blue/weapons/${weapon}`));
+    }
+    const results = await Promise.allSettled(weaponPromises);
+    const jsonPromises = [];
+    for (const result of results) {
+      if (result.status == "fulfilled") {
+        jsonPromises.push(result.value.json());
+      }
+    }
+    const jsonResults = await Promise.allSettled(jsonPromises);
+    for (const weapon of jsonResults) {
+      if (weapon.status == "rejected") return;
+      const weaponObj = (({
+        id,
+        name,
+        type,
+      }: {
+        id: string;
+        name: string;
+        type: string;
+      }) => ({
+        id,
+        name,
+        weaponType: type,
         type: "weapon",
-        name: weapon,
-      };
+      }))(weapon.value);
       this.weapons.push(weaponObj);
     }
   },

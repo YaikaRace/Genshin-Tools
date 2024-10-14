@@ -16,8 +16,8 @@
       >
         <!-- <div>{{ element }}</div> -->
         <img
-          :src="`https://genshin.jmp.blue/characters/${element.name}/icon`"
-          :alt="`${element.name}-icon`"
+          :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
+          :alt="`${element.id}-icon`"
           class="h-32 w-32 max-w-32 max-h-32"
         />
         <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
@@ -49,11 +49,34 @@ export default defineComponent({
   async mounted() {
     const data = await fetch("https://genshin.jmp.blue/characters/");
     const json = await data.json();
+    const charPromises = [];
     for (const char of json) {
-      const character = {
+      charPromises.push(fetch(`https://genshin.jmp.blue/characters/${char}`));
+    }
+    const results = await Promise.allSettled(charPromises);
+    const jsonPromises = [];
+    for (const result of results) {
+      if (result.status == "fulfilled") {
+        jsonPromises.push(result.value.json());
+      }
+    }
+    const jsonResults = await Promise.allSettled(jsonPromises);
+    for (const char of jsonResults) {
+      if (char.status == "rejected") return;
+      const character = (({
+        id,
+        name,
+        weapon,
+      }: {
+        id: string;
+        name: string;
+        weapon: string;
+      }) => ({
+        id,
+        name,
+        weapon,
         type: "character",
-        name: char,
-      };
+      }))(char.value);
       this.chars.push(character);
     }
   },
