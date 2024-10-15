@@ -10,7 +10,7 @@
     >
       <template #item="{ element }">
         <div>
-          <div class="flex min-h-32 min-w-full border-white border-2">
+          <div class="flex min-h-32 h-full min-w-full border-white border-2">
             <div class="w-32" :class="[colors[element.color]]">
               <button
                 class="absolute bg-red-500 w-6 h-6 text-xs"
@@ -39,7 +39,7 @@
             <font-awesome-icon
               icon="fa-solid fa-arrows-up-down"
               v-if="!takingScreenshot"
-              class="text-white handle my-auto mr-8 text-center w-8 h-full"
+              class="text-white handle my-auto mr-8 text-center w-8 h-full hover:cursor-move"
             />
           </div>
         </div>
@@ -135,12 +135,21 @@ export default defineComponent({
   methods: {
     async takeScreenshot() {
       const el = document.getElementById("tierlist");
+      const scale = window.devicePixelRatio;
       if (!el) return;
       this.takingScreenshot = true;
       domtoimage
         .toPng(el, {
           bgcolor: "rgb(15 23 42)",
           copyDefaultStyles: false,
+          width: 1920,
+          height: 1080,
+          style: {
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+            width: "1920px",
+            height: "1080px",
+          },
         })
         .then((dataURL: string) => {
           this.screenshot = dataURL;

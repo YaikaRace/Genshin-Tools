@@ -1,34 +1,39 @@
 <template>
-  <draggable
-    :list="weapons"
-    tag="div"
-    :group="{ name: 'weapons', put: ['tier'], accepts: ['weapon'] }"
-    item-key="id"
-    class="min-h-32 max-h-32 flex flex-wrap"
-    chosen-class="chosen"
-    delay="150"
-    delay-on-touch-only="true"
-    :move="onMove"
-  >
-    <template #item="{ element }">
-      <div
-        class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
-      >
-        <!-- <div>{{ element }}</div> -->
-        <img
-          :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
-          :alt="`${element.id.toLowerCase()}-icon`"
-          class="h-32 w-32 max-w-32 max-h-32"
-        />
-        <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
-      </div>
-    </template>
-  </draggable>
+  <div id="weapons-draggable-container">
+    <draggable
+      :list="weapons"
+      tag="div"
+      :group="{
+        name: 'weapons',
+        put: ['tier', 'weapons'],
+        accepts: ['weapon'],
+      }"
+      item-key="id"
+      class="min-h-32 max-h-32 flex flex-wrap"
+      delay="150"
+      delay-on-touch-only="true"
+      :move="onMove"
+    >
+      <template #item="{ element }">
+        <div
+          class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
+        >
+          <!-- <div>{{ element }}</div> -->
+          <img
+            :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
+            :alt="`${element.id.toLowerCase()}-icon`"
+            class="h-32 w-32 max-w-32 max-h-32"
+          />
+          <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
+        </div>
+      </template>
+    </draggable>
+  </div>
 </template>
 
 <style lang="postcss">
-.chosen {
-  @apply opacity-50;
+#weapons-draggable-container .sortable-chosen {
+  @apply opacity-50 bg-red-50;
 }
 </style>
 

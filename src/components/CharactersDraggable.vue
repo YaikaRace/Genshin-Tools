@@ -32,7 +32,7 @@
 }
 </style>
 
-<script lang="ts">
+<script lang="ts" scoped>
 import { defineComponent } from "vue";
 import draggable from "vuedraggable";
 
@@ -75,6 +75,7 @@ export default defineComponent({
         id,
         name,
         weapon,
+        nested: [],
         type: "character",
       }))(char.value);
       this.chars.push(character);

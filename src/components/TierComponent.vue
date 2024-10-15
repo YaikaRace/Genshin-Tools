@@ -16,12 +16,36 @@
     :move="onMove"
   >
     <template #item="{ element }">
-      <div class="hover:cursor-move" v-if="element.type == 'character'">
+      <div
+        class="hover:cursor-move relative"
+        v-if="element.type == 'character'"
+        id="weapon-container"
+      >
         <img
           :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
           :alt="`${element.id.toLowerCase()}-icon`"
           class="inline h-32 max-w-32 min-w-32"
         />
+        <draggable
+          :list="element.nested"
+          :group="{
+            name: 'weapons',
+            put: ['tier', 'weapons'],
+            accepts: ['weapon'],
+          }"
+          chosen-class="chosen"
+          item-key="id"
+          tag="div"
+          class="h-12 w-12 absolute bottom-0 right-0"
+        >
+          <template #item="{ element }">
+            <img
+              :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
+              :alt="`${element.id}-icon`"
+              class="h-12 w-12 p-1 bg-amber-600 rounded-md"
+            />
+          </template>
+        </draggable>
       </div>
       <div class="hover:cursor-move" v-else>
         <img
@@ -34,9 +58,9 @@
   </draggable>
 </template>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .chosen {
-  @apply opacity-50;
+  @apply opacity-50 h-32 w-32 bg-black;
 }
 </style>
 
