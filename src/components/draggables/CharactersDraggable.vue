@@ -1,34 +1,35 @@
 <template>
-  <draggable
-    :list="chars"
-    tag="div"
-    :group="{ name: 'characters', put: ['tier'], accepts: ['character'] }"
-    item-key="id"
-    class="min-h-32 flex flex-wrap h-fit"
-    chosen-class="chosen"
-    delay="150"
-    delay-on-touch-only="true"
-    :move="onMove"
-  >
-    <template #item="{ element }">
-      <div
-        class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
-      >
-        <!-- <div>{{ element }}</div> -->
-        <img
-          :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
-          :alt="`${element.id}-icon`"
-          class="h-32 w-32 max-w-32 max-h-32"
-        />
-        <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
-      </div>
-    </template>
-  </draggable>
+  <div id="chars-container">
+    <draggable
+      :list="chars"
+      tag="div"
+      :group="{ name: 'characters', put: ['tier'], accepts: ['character'] }"
+      item-key="id"
+      class="min-h-32 flex flex-wrap h-fit"
+      delay="150"
+      delay-on-touch-only="true"
+      :move="onMove"
+    >
+      <template #item="{ element }">
+        <div
+          class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
+        >
+          <!-- <div>{{ element }}</div> -->
+          <img
+            :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
+            :alt="`${element.id}-icon`"
+            class="h-32 w-32 max-w-32 max-h-32"
+          />
+          <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
+        </div>
+      </template>
+    </draggable>
+  </div>
 </template>
 
 <style lang="postcss">
-.chosen {
-  @apply opacity-50;
+#chars-container .sortable-chosen {
+  @apply opacity-50 h-32 w-32 bg-opacity-0;
 }
 </style>
 
@@ -49,12 +50,13 @@ export default defineComponent({
   async mounted() {
     const data = await fetch("https://genshin.jmp.blue/characters/");
     const json = await data.json();
-    const charPromises = [];
+    const charPromises: Promise<Response>[] = [];
     for (const char of json) {
       charPromises.push(fetch(`https://genshin.jmp.blue/characters/${char}`));
     }
     const results = await Promise.allSettled(charPromises);
-    const jsonPromises = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const jsonPromises: Promise<any>[] = [];
     for (const result of results) {
       if (result.status == "fulfilled") {
         jsonPromises.push(result.value.json());

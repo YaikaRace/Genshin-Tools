@@ -80,7 +80,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import TierComponent from "./TierComponent.vue";
+import TierComponent from "./draggables/TierComponent.vue";
 import draggable from "vuedraggable";
 import domtoimage from "dom-to-image-more";
 

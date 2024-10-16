@@ -33,7 +33,7 @@
 
 <style lang="postcss">
 #weapons-draggable-container .sortable-chosen {
-  @apply opacity-50 bg-red-50;
+  @apply bg-opacity-0 opacity-50 h-32 w-32;
 }
 </style>
 

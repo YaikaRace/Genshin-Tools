@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import CharactersDraggable from "./components/CharactersDraggable.vue";
-import WeaponsDraggable from "./components/WeaponsDraggable.vue";
+import CharactersDraggable from "./components/draggables/CharactersDraggable.vue";
+import WeaponsDraggable from "./components/draggables/WeaponsDraggable.vue";
 import TierlistComponent from "./components/TierlistComponent.vue";
 
 export default defineComponent({
