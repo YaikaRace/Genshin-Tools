@@ -9,11 +9,10 @@
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"
+      :animation="200"
     >
       <template #item="{ element }">
-        <div
-          class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
-        >
+        <div class="hover:cursor-move flex w-32 max-w-32 max-h-32">
           <!-- <div>{{ element }}</div> -->
           <img
             :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"

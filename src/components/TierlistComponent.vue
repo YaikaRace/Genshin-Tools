@@ -7,47 +7,57 @@
       handle=".handle"
       delay="150"
       delay-on-touch-only="true"
+      :animation="200"
+      class="relative flex flex-col"
     >
+      <template #header>
+        <div
+          contenteditable
+          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl"
+        >
+          My Genshin Tierlist
+        </div>
+      </template>
       <template #item="{ element }">
-        <div>
-          <div class="flex min-h-32 h-full min-w-full border-white border-2">
-            <div class="w-32" :class="[colors[element.color]]">
-              <button
-                class="absolute bg-red-500 w-6 h-6 text-xs"
-                @click.prevent="deleteTier(element)"
-                v-if="!takingScreenshot"
+        <div
+          class="flex border-white border-2 min-h-full min-w-full flex-[1_0_0%]"
+        >
+          <div class="w-32" :class="[colors[element.color]]">
+            <button
+              class="absolute bg-red-500 w-6 h-6 text-xs"
+              @click.prevent="deleteTier(element)"
+              v-if="!takingScreenshot"
+            >
+              X
+            </button>
+            <button
+              class="absolute translate-y-6 bg-white w-6 h-6 text-xs"
+              @click.prevent="changeColor(element)"
+              v-if="!takingScreenshot"
+            >
+              <font-awesome-icon icon="fa-solid fa-eye-dropper" size="xs" />
+            </button>
+            <div class="w-32 h-full table">
+              <div
+                contenteditable
+                class="table-cell align-middle text-center font-bold max-w-32 break-words p-4"
               >
-                X
-              </button>
-              <button
-                class="absolute translate-y-6 bg-white w-6 h-6 text-xs"
-                @click.prevent="changeColor(element)"
-                v-if="!takingScreenshot"
-              >
-                <font-awesome-icon icon="fa-solid fa-eye-dropper" size="xs" />
-              </button>
-              <div class="w-32 h-full table">
-                <div
-                  contenteditable
-                  class="table-cell align-middle text-center font-bold max-w-32 break-words p-4"
-                >
-                  {{ element.name }}
-                </div>
+                {{ element.name }}
               </div>
             </div>
-            <tier-component :list="element.nested" class="w-full" />
-            <font-awesome-icon
-              icon="fa-solid fa-arrows-up-down"
-              v-if="!takingScreenshot"
-              class="text-white handle my-auto mr-8 text-center w-8 h-full hover:cursor-move"
-            />
           </div>
+          <tier-component :list="element.nested" class="w-full" />
+          <font-awesome-icon
+            icon="fa-solid fa-arrows-up-down"
+            v-if="!takingScreenshot"
+            class="text-white handle my-auto mr-8 text-center w-8 h-full hover:cursor-move"
+          />
         </div>
       </template>
     </draggable>
-    <div v-if="takingScreenshot" class="text-white text-center bg-red-700">
-      Genshin Impact TierMaker by @YaikaRace
-    </div>
+  </div>
+  <div v-if="takingScreenshot" class="text-white text-center bg-red-700">
+    Genshin Impact TierMaker by @YaikaRace
   </div>
   <div>
     <div class="my-6">
@@ -145,7 +155,7 @@ export default defineComponent({
           width: 1920,
           height: 1080,
           style: {
-            transform: `scale(${scale})`,
+            scale: `${scale}`,
             transformOrigin: "top left",
             width: "1920px",
             height: "1080px",

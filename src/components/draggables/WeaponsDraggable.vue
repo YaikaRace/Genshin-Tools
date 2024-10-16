@@ -13,6 +13,7 @@
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"
+      :animation="200"
     >
       <template #item="{ element }">
         <div
