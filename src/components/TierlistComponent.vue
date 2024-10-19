@@ -1,5 +1,5 @@
 <template>
-  <div id="tierlist">
+  <div id="tierlist" class="flex flex-col">
     <draggable
       :list="tiers"
       group="tiers"
@@ -8,21 +8,21 @@
       delay="150"
       delay-on-touch-only="true"
       :animation="200"
-      class="relative flex flex-col"
+      class="relative min-w-full min-h-max flex flex-col items-stretch"
     >
       <template #header>
         <div
           contenteditable
-          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl"
+          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl min-w-full"
         >
           My Genshin Tierlist
         </div>
       </template>
       <template #item="{ element }">
         <div
-          class="flex border-white border-2 min-h-full min-w-full flex-[1_0_0%]"
+          class="flex items-stretch border-white border-2 min-w-full min-h-full"
         >
-          <div class="w-32" :class="[colors[element.color]]">
+          <div class="min-h-32 h-full" :class="[colors[element.color]]">
             <button
               class="absolute bg-red-500 w-6 h-6 text-xs"
               @click.prevent="deleteTier(element)"
@@ -37,16 +37,16 @@
             >
               <font-awesome-icon icon="fa-solid fa-eye-dropper" size="xs" />
             </button>
-            <div class="w-32 h-full table">
+            <div class="w-32 min-h-32 h-full table">
               <div
                 contenteditable
-                class="table-cell align-middle text-center font-bold max-w-32 break-words p-4"
+                class="table-cell align-middle text-center font-bold max-w-32 break-words p-4 min-h-32 h-full"
               >
                 {{ element.name }}
               </div>
             </div>
           </div>
-          <tier-component :list="element.nested" class="w-full" />
+          <tier-component :list="element.nested" class="w-full h-full" />
           <font-awesome-icon
             icon="fa-solid fa-arrows-up-down"
             v-if="!takingScreenshot"

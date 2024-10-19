@@ -45,8 +45,10 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss" scoped>
-#weapon-container .sortable-ghost {
-  @apply opacity-50 max-h-12 max-w-12 bg-amber-600;
+<style lang="postcss">
+#weapon-container .sortable-ghost,
+#weapon-container .sortable-chosen,
+#weapon-container .sortable-drag {
+  @apply opacity-50 !max-h-12 !max-w-12 bg-amber-600;
 }
 </style>

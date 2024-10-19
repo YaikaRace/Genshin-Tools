@@ -40,9 +40,9 @@
   </div>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 #tier-container .sortable-ghost {
-  @apply opacity-50 h-32 w-32 bg-opacity-0;
+  @apply opacity-50 !h-32 !w-32 !bg-opacity-0;
 }
 </style>
 
