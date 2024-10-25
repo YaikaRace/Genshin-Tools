@@ -1,50 +1,16 @@
 <template>
-  <div class="min-h-screen h-full w-10/12 mx-auto mt-8">
-    <tierlist-component />
-    <div>
-      <tabs :tabs="tabs" @tab-selected="(v: number) => selectedTab = v">
-        <tab :active="selectedTab == 0">
-          <characters-draggable />
-        </tab>
-        <tab :active="selectedTab == 1">
-          <weapons-draggable />
-        </tab>
-      </tabs>
-    </div>
-  </div>
+  <nav-bar />
+  <router-view />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import CharactersDraggable from "./components/draggables/CharactersDraggable.vue";
-import WeaponsDraggable from "./components/draggables/WeaponsDraggable.vue";
-import TierlistComponent from "./components/TierlistComponent.vue";
-import tab from "./components/TabComponent.vue";
-import tabs from "./components/TabsComponent.vue";
+import NavBar from "./components/NavBar.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    CharactersDraggable,
-    WeaponsDraggable,
-    TierlistComponent,
-    tab,
-    tabs,
-  },
-  data() {
-    return {
-      tabs: [
-        {
-          id: 0,
-          title: "Characters",
-        },
-        {
-          id: 1,
-          title: "Weapons",
-        },
-      ],
-      selectedTab: 0,
-    };
+    NavBar,
   },
 });
 </script>
