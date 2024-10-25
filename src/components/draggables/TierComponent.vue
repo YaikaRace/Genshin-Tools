@@ -1,5 +1,5 @@
 <template>
-  <div id="tier-container" class="h-full w-full">
+  <div id="tier-container" class="w-full">
     <draggable
       :list="list"
       item-key="id"
@@ -10,7 +10,7 @@
         put: ['characters', 'weapons', 'tier'],
         accepts: ['character', 'weapon'],
       }"
-      class="min-h-32 flex flex-wrap w-full h-full flex-1"
+      class="h-max flex flex-wrap w-full"
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"
@@ -24,7 +24,7 @@
           <img
             :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
             :alt="`${element.id.toLowerCase()}-icon`"
-            class="inline w-32 h-32"
+            class="inline w-20 h-20 md:w-32 md:h-32"
           />
           <character-weapon-draggable :list="element.nested" />
         </div>
@@ -32,7 +32,7 @@
           <img
             :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
             :alt="`${element.id.toLowerCase()}-icon`"
-            class="inline h-32 w-32 min-w-32"
+            class="inline w-20 h-20 md:w-32 md:h-32"
           />
         </div>
       </template>
@@ -42,7 +42,7 @@
 
 <style lang="postcss">
 #tier-container .sortable-ghost {
-  @apply opacity-50 !h-32 !w-32 !bg-opacity-0;
+  @apply opacity-50 h-20 w-20 md:h-32 md:w-32 bg-opacity-0;
 }
 </style>
 

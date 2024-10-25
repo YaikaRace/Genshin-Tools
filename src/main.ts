@@ -7,10 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faEyeDropper,
   faArrowsUpDown,
+  faBan,
 } from "@fortawesome/free-solid-svg-icons";
 
-import router from './router'
+import router from "./router";
+import store from "./store";
 
-library.add(faEyeDropper, faArrowsUpDown);
+library.add(faEyeDropper, faArrowsUpDown, faBan);
 
-createApp(App).use(router).use(router).component("font-awesome-icon", FontAwesomeIcon).mount("#app");
+createApp(App)
+  .use(store)
+  .use(router)
+  .component("font-awesome-icon", FontAwesomeIcon)
+  .mount("#app");

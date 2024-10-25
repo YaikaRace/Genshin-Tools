@@ -12,12 +12,12 @@
       :animation="200"
     >
       <template #item="{ element }">
-        <div class="hover:cursor-move flex w-32 max-w-32 max-h-32">
+        <div class="hover:cursor-move flex w-20 max-w-32 max-h-32 md:w-32">
           <!-- <div>{{ element }}</div> -->
           <img
             :src="`https://genshin.jmp.blue/characters/${element.id.toLowerCase()}/icon`"
             :alt="`${element.id}-icon`"
-            class="h-32 w-32 max-w-32 max-h-32"
+            class="h-full w-full"
           />
           <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
         </div>
@@ -28,7 +28,7 @@
 
 <style lang="postcss">
 #chars-container .sortable-chosen {
-  @apply opacity-50 h-32 w-32 bg-opacity-0;
+  @apply opacity-50 h-20 w-20 md:h-32 md:w-32 bg-opacity-0;
 }
 </style>
 

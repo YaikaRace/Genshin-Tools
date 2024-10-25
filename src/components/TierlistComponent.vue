@@ -1,28 +1,27 @@
 <template>
-  <div id="tierlist" class="flex flex-col">
+  <div id="tierlist" class="h-full w-full">
     <draggable
       :list="tiers"
       group="tiers"
+      tag="div"
       item-key="id"
       handle=".handle"
       delay="150"
       delay-on-touch-only="true"
       :animation="200"
-      class="relative min-w-full min-h-max flex flex-col items-stretch"
+      class="relative h-fit"
     >
       <template #header>
         <div
           contenteditable
-          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl min-w-full"
+          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl"
         >
           My Genshin Tierlist
         </div>
       </template>
       <template #item="{ element }">
-        <div
-          class="flex items-stretch border-white border-2 min-w-full min-h-full"
-        >
-          <div class="min-h-32 h-full" :class="[colors[element.color]]">
+        <div class="flex items-stretch border-white border-2 w-full h-full">
+          <div class="w-20 md:w-32" :class="[colors[element.color]]">
             <button
               class="absolute bg-red-500 w-6 h-6 text-xs"
               @click.prevent="deleteTier(element)"
@@ -37,20 +36,22 @@
             >
               <font-awesome-icon icon="fa-solid fa-eye-dropper" size="xs" />
             </button>
-            <div class="w-32 min-h-32 h-full table">
-              <div
-                contenteditable
-                class="table-cell align-middle text-center font-bold max-w-32 break-words p-4 min-h-32 h-full"
-              >
-                {{ element.name }}
+            <div class="min-h-20 h-full w-20 grow md:min-h-32 md:w-32 table">
+              <div class="table-row">
+                <div
+                  contenteditable
+                  class="table-cell align-middle text-center font-bold break-words p-4"
+                >
+                  {{ element.name }}
+                </div>
               </div>
             </div>
           </div>
-          <tier-component :list="element.nested" class="w-full h-full" />
+          <tier-component :list="element.nested" />
           <font-awesome-icon
             icon="fa-solid fa-arrows-up-down"
             v-if="!takingScreenshot"
-            class="text-white handle my-auto mr-8 text-center w-8 h-full hover:cursor-move"
+            class="text-white handle my-auto mr-8 text-center w-4 h-full hover:cursor-move"
           />
         </div>
       </template>
@@ -63,19 +64,19 @@
     <div class="my-6">
       <button
         @click.prevent="takeScreenshot"
-        class="text-white text-lg bg-slate-700 p-2 border-white border-2 rounded-lg"
+        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg"
       >
         Screenshot
       </button>
       <button
         @click.prevent="deleteScreenshot"
-        class="text-white text-lg bg-slate-700 p-2 border-white border-2 rounded-lg ml-4"
+        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg ml-4"
       >
         Delete Screenshot
       </button>
       <button
         @click.prevent="addTier"
-        class="text-white text-lg bg-slate-700 p-2 border-white border-2 rounded-lg float-right"
+        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg float-right"
       >
         Add Tier
       </button>
@@ -155,7 +156,7 @@ export default defineComponent({
           width: 1920,
           height: 1080,
           style: {
-            scale: `${scale}`,
+            transform: `scale(${scale})`,
             transformOrigin: "top left",
             width: "1920px",
             height: "1080px",

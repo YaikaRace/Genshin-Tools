@@ -1,7 +1,10 @@
 <template>
   <header class="h-12 bg-slate-700">
-    <div class="w-11/12">
-      <router-link :to="{ name: 'home' }" class="font-bold text-4xl text-white">
+    <div class="w-11/12 mx-auto h-full flex items-center">
+      <router-link
+        :to="{ name: 'home' }"
+        class="font-bold text-2xl text-white text-center"
+      >
         Genshin TierMaker
       </router-link>
     </div>
@@ -16,4 +19,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="postcss" scoped></style>
