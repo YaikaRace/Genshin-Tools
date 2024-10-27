@@ -10,7 +10,7 @@
         put: ['characters', 'weapons', 'tier'],
         accepts: ['character', 'weapon'],
       }"
-      class="h-max flex flex-wrap w-full"
+      class="h-full flex flex-wrap w-full"
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"

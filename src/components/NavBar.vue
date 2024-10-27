@@ -7,15 +7,20 @@
       >
         Genshin TierMaker
       </router-link>
+      <!-- <side-menu /> -->
     </div>
   </header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+// import SideMenu from "./SideMenu.vue";
 
 export default defineComponent({
   name: "NavBar",
+  components: {
+    // SideMenu,
+  },
 });
 </script>
 

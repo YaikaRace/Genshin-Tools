@@ -1,5 +1,5 @@
 <template>
-  <div id="tierlist" class="h-full w-full">
+  <article id="tierlist" class="h-full w-full">
     <draggable
       :list="tiers"
       group="tiers"
@@ -56,10 +56,10 @@
         </div>
       </template>
     </draggable>
-  </div>
-  <div v-if="takingScreenshot" class="text-white text-center bg-red-700">
-    Genshin Impact TierMaker by @YaikaRace
-  </div>
+    <div v-if="takingScreenshot" class="text-white text-center bg-red-700">
+      Genshin Impact TierMaker by @YaikaRace
+    </div>
+  </article>
   <div>
     <div class="my-6">
       <button
@@ -158,8 +158,8 @@ export default defineComponent({
           style: {
             transform: `scale(${scale})`,
             transformOrigin: "top left",
-            width: "1920px",
-            height: "1080px",
+            width: "100%",
+            height: "100%",
           },
         })
         .then((dataURL: string) => {
