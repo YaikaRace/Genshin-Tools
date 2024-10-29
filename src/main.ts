@@ -8,12 +8,13 @@ import {
   faEyeDropper,
   faArrowsUpDown,
   faBan,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
 import store from "./store";
 
-library.add(faEyeDropper, faArrowsUpDown, faBan);
+library.add(faEyeDropper, faArrowsUpDown, faBan, faBars);
 
 createApp(App)
   .use(store)

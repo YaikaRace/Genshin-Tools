@@ -1,9 +1,15 @@
 import { createStore } from "vuex";
 
 export default createStore({
-  state: {},
+  state: {
+    sideMenuVisible: false,
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    sideMenuVisibility(state) {
+      state.sideMenuVisible = !state.sideMenuVisible;
+    },
+  },
   actions: {},
   modules: {},
 });
