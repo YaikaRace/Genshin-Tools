@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-11/12 mx-auto mt-8">
+  <div class="min-h-screen w-11/12 mx-auto mt-16">
     <tierlist-component />
     <div>
       <tabs :tabs="tabs" @tab-selected="(v: number) => selectedTab = v">
