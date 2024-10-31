@@ -1,30 +1,30 @@
 <template>
   <Transition name="sidemenu" :duration="200">
-    <article
+    <aside
       v-show="sideMenuVisible"
       @click.self="sideMenuVisibility"
       class="text-white fixed min-h-screen min-w-full z-40 top-0 left-0"
     >
       <div
-        class="min-h-full min-w-56 bg-slate-700 fixed right-0 flex flex-col items-center p-4 text-center"
+        class="min-h-full min-w-56 bg-slate-900 fixed right-0 flex flex-col items-center p-4 text-center"
       >
         <div class="h-8 w-full mb-4 border-white border-b-[1px]"></div>
         <ul class="h-full w-full">
-          <li v-for="page in pages" :key="page.id">
+          <li v-for="page in pages as any" :key="page.id">
             <router-link class="sidebar-button" :to="{ name: page.route }">{{
               page.name
             }}</router-link>
           </li>
         </ul>
         <ul class="min-h-full w-full mt-auto">
-          <li v-for="button in footerButtons" :key="button.id">
+          <li v-for="button in footerButtons as any" :key="button.id">
             <router-link :to="{ name: button.route }" class="sidebar-button">{{
               button.name
             }}</router-link>
           </li>
         </ul>
       </div>
-    </article>
+    </aside>
   </Transition>
 </template>
 
@@ -34,39 +34,24 @@ import { mapMutations, mapState } from "vuex";
 
 export default defineComponent({
   name: "SideMenu",
-  data() {
-    return {
-      pages: [
-        {
-          id: 0,
-          name: "Home",
-          route: "home",
-        },
-        {
-          id: 1,
-          name: "TierMaker",
-          route: "home",
-        },
-      ],
-      footerButtons: [
-        {
-          id: 0,
-          name: "Sign in",
-          route: "home",
-        },
-        {
-          id: 1,
-          name: "Sign up",
-          route: "home",
-        },
-      ],
-    };
+  props: {
+    pages: {
+      type: Array,
+      default: () => [],
+    },
+    footerButtons: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     ...mapState(["sideMenuVisible"]),
   },
   methods: {
     ...mapMutations(["sideMenuVisibility"]),
+  },
+  mounted() {
+    console.log(this.$route.name);
   },
 });
 </script>
@@ -81,7 +66,10 @@ export default defineComponent({
   @apply transition-all duration-200;
 }
 .sidebar-button {
-  @apply relative block w-full h-full p-2 mb-1 bg-slate-600 rounded-lg;
+  @apply relative block w-full h-full p-2 mb-1 bg-slate-800 rounded-lg;
+}
+.router-link-exact-active {
+  @apply bg-purple-600;
 }
 .sidebar-button:after {
   @apply w-full h-[2px] content-[''] absolute bottom-[-2px] left-0 bg-[radial-gradient(closest-side,white,rgba(255,255,255,0))] 

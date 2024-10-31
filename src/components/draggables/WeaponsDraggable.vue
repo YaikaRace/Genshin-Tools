@@ -9,7 +9,7 @@
         accepts: ['weapon'],
       }"
       item-key="id"
-      class="min-h-32 max-h-32 flex flex-wrap"
+      class="min-h-fit flex flex-wrap justify-center bg-slate-800 border-white border-2 rounded-lg p-4"
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"
@@ -17,13 +17,13 @@
     >
       <template #item="{ element }">
         <div
-          class="list-group-item hover:cursor-move flex w-32 max-w-32 max-h-32"
+          class="list-group-item hover:cursor-move flex w-20 h-20 max-w-32 max-h-32 md:w-32 md:h-32"
         >
           <!-- <div>{{ element }}</div> -->
           <img
             :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
             :alt="`${element.id.toLowerCase()}-icon`"
-            class="h-32 w-32 max-w-32 max-h-32"
+            class="h-full w-full"
           />
           <!-- <HelloWorld :list="element.nested" class="ml-2" /> -->
         </div>
@@ -34,7 +34,7 @@
 
 <style lang="postcss">
 #weapons-draggable-container .sortable-chosen {
-  @apply bg-opacity-0 opacity-50 h-32 w-32;
+  @apply bg-opacity-0 opacity-50 h-20 w-20 md:h-32 md:w-32;
 }
 </style>
 

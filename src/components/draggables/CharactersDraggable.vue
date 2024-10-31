@@ -5,7 +5,7 @@
       tag="div"
       :group="{ name: 'characters', put: ['tier'], accepts: ['character'] }"
       item-key="id"
-      class="min-h-32 flex flex-wrap h-fit"
+      class="min-h-32 flex flex-wrap justify-center h-fit p-4 border-2 border-white rounded-lg rounded-l-none bg-slate-800"
       delay="150"
       delay-on-touch-only="true"
       :move="onMove"

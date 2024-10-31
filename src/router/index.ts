@@ -9,7 +9,23 @@ const routes: RouteRecordRaw[] = [
     component: HomeView,
   },
   {
+    path: "/tiermaker",
+    name: "tiermaker",
+    component: HomeView,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: HomeView,
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: HomeView,
+  },
+  {
     path: "/:pathMatch(.*)*",
+    name: "notFound",
     component: NotFound,
   },
 ];

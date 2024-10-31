@@ -1,5 +1,5 @@
 <template>
-  <article id="tierlist" class="h-full w-full">
+  <article id="tierlist" class="h-full w-full bg-slate-800">
     <draggable
       :list="tiers"
       group="tiers"
@@ -23,14 +23,14 @@
         <div class="flex items-stretch border-white border-2 w-full h-full">
           <div class="w-20 md:w-32" :class="[colors[element.color]]">
             <button
-              class="absolute bg-red-500 w-6 h-6 text-xs"
+              class="absolute bg-red-500 hover:bg-red-400 w-6 h-6 text-xs"
               @click.prevent="deleteTier(element)"
               v-if="!takingScreenshot"
             >
               X
             </button>
             <button
-              class="absolute translate-y-6 bg-white w-6 h-6 text-xs"
+              class="absolute translate-y-6 bg-white hover:bg-gray-400 w-6 h-6 text-xs"
               @click.prevent="changeColor(element)"
               v-if="!takingScreenshot"
             >
@@ -64,19 +64,19 @@
     <div class="my-6">
       <button
         @click.prevent="takeScreenshot"
-        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg"
+        class="text-white text-base bg-slate-700 hover:bg-purple-600 p-2 border-white border-2 rounded-lg"
       >
         Screenshot
       </button>
       <button
         @click.prevent="deleteScreenshot"
-        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg ml-4"
+        class="text-white text-base bg-slate-700 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
       >
         Delete Screenshot
       </button>
       <button
         @click.prevent="addTier"
-        class="text-white text-base bg-slate-700 p-2 border-white border-2 rounded-lg float-right"
+        class="text-white text-base bg-slate-700 hover:bg-purple-600 p-2 border-white border-2 rounded-lg float-right"
       >
         Add Tier
       </button>
@@ -137,7 +137,7 @@ export default defineComponent({
         "bg-purple-500",
         "bg-blue-500",
         "bg-white",
-        "bg-black",
+        "bg-black text-white",
       ] as string[],
       screenshot: "",
       takingScreenshot: false,
@@ -151,7 +151,6 @@ export default defineComponent({
       this.takingScreenshot = true;
       domtoimage
         .toPng(el, {
-          bgcolor: "rgb(15 23 42)",
           copyDefaultStyles: false,
           width: 1920,
           height: 1080,
