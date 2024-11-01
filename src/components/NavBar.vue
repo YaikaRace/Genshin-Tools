@@ -27,6 +27,10 @@
             v-for="button in footerButtons as any"
             :to="{ name: button.route }"
             class="navbar-button ml-1"
+            :class="[
+              button.color ? button.color : '',
+              button.hover ? 'hover:' + button.hover : '',
+            ]"
             >{{ button.name }}</router-link
           >
         </div>
@@ -103,6 +107,8 @@ export default defineComponent({
           id: 1,
           name: "Sign up",
           route: "register",
+          color: "bg-indigo-600",
+          hover: "bg-indigo-400",
         },
       ],
     };
@@ -128,9 +134,9 @@ export default defineComponent({
   @apply transition-opacity duration-200;
 }
 .navbar-button {
-  @apply relative inline w-full h-full py-2 px-4 bg-slate-800 rounded-lg;
+  @apply relative inline w-full h-full py-2 px-4 hover:bg-slate-800 rounded-lg;
 }
 .router-link-exact-active {
-  @apply bg-purple-600;
+  @apply !bg-purple-600;
 }
 </style>
