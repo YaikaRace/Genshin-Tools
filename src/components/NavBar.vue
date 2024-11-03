@@ -110,9 +110,9 @@ export default defineComponent({
           id: 1,
           name: "Sign up",
           route: "register",
-          color: "bg-purple-600",
-          hover: "hover:!bg-gray-300 hover:text-purple-600",
-          selected: "bg-white text-purple-400",
+          color: "!bg-purple-600",
+          hover: "hover:!bg-gray-300 hover:text-purple-700",
+          selected: "!bg-white !text-purple-600 !border-b-4 border-purple-600",
         },
       ],
     };
@@ -141,6 +141,6 @@ export default defineComponent({
   @apply relative inline w-full h-full py-2 px-4 font-bold hover:bg-slate-700 rounded-lg;
 }
 .router-link-exact-active {
-  @apply !bg-purple-600;
+  @apply !border-purple-600 border-b-2 text-purple-600;
 }
 </style>

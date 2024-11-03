@@ -18,9 +18,18 @@
         </ul>
         <ul class="min-h-full w-full mt-auto">
           <li v-for="button in footerButtons as any" :key="button.id">
-            <router-link :to="{ name: button.route }" class="sidebar-button">{{
-              button.name
-            }}</router-link>
+            <router-link
+              :to="{ name: button.route }"
+              :class="[
+                button.color ? button.color : '',
+                button.hover ? button.hover : '',
+              ]"
+              class="sidebar-button"
+              :exact-active-class="
+                button.selected ? button.selected : 'router-link-exact-active'
+              "
+              >{{ button.name }}</router-link
+            >
           </li>
         </ul>
       </div>
@@ -66,16 +75,16 @@ export default defineComponent({
   @apply transition-all duration-200;
 }
 .sidebar-button {
-  @apply relative block w-full h-full p-2 mb-1 bg-slate-800 rounded-lg;
+  @apply relative block min-h-11 w-full h-full p-2 mb-1 bg-slate-800 rounded-lg;
 }
 .router-link-exact-active {
-  @apply bg-purple-600;
+  @apply !border-purple-600 border-b-2 text-purple-600;
 }
 .sidebar-button:after {
   @apply w-full h-[2px] content-[''] absolute bottom-[-2px] left-0 bg-[radial-gradient(closest-side,white,rgba(255,255,255,0))] 
-  transition-transform duration-200 ease-out origin-center scale-x-0;
+  transition-transform duration-200 ease-out origin-center scale-x-0 -z-10;
 }
 .sidebar-button:hover::after {
-  @apply scale-x-100;
+  @apply scale-x-100 -z-10;
 }
 </style>

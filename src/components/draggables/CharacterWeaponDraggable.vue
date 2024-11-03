@@ -11,14 +11,14 @@
       }"
       item-key="id"
       tag="div"
-      class="h-12 w-12 absolute bottom-0 right-0"
+      class="h-12 w-12 md:h-16 md:w-16 absolute bottom-0 right-0"
       :animation="200"
     >
       <template #item="{ element }">
         <img
           :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
           :alt="`${element.id}-icon`"
-          class="h-12 w-12 p-1 bg-amber-600 rounded-md"
+          class="h-full w-full p-1 rounded-md weapon-icon"
         />
       </template>
     </draggable>
@@ -45,10 +45,16 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 #weapon-container .sortable-ghost,
 #weapon-container .sortable-chosen,
 #weapon-container .sortable-drag {
-  @apply opacity-50 !max-h-12 !max-w-12 bg-amber-600;
+  @apply opacity-50 !max-h-16 !max-w-16;
+}
+.weapon-icon {
+  --color: rgb(245, 158, 11);
+  filter: drop-shadow(0px 2px 0px var(--color))
+    drop-shadow(-2px 0px 0px var(--color)) drop-shadow(2px 0px 0px var(--color))
+    drop-shadow(0px -2px 0px var(--color));
 }
 </style>

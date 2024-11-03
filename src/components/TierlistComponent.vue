@@ -1,5 +1,5 @@
 <template>
-  <article id="tierlist" class="h-full w-full bg-slate-800">
+  <article id="tierlist" class="h-full min-w-full bg-slate-800">
     <draggable
       :list="tiers"
       group="tiers"
@@ -9,18 +9,20 @@
       delay="150"
       delay-on-touch-only="true"
       :animation="200"
-      class="relative h-fit"
+      class="relative h-fit min-w-full"
     >
       <template #header>
         <div
           contenteditable
-          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl"
+          class="bg-white font-bold text-center text-2xl p-2 rounded-t-xl min-w-full"
         >
           My Genshin Tierlist
         </div>
       </template>
       <template #item="{ element }">
-        <div class="flex items-stretch border-white border-2 w-full h-full">
+        <div
+          class="flex items-stretch basis-3/4 border-white border-2 min-w-full h-full"
+        >
           <div class="w-20 md:w-32" :class="[colors[element.color]]">
             <button
               class="absolute bg-red-500 hover:bg-red-400 w-6 h-6 text-xs"
@@ -56,7 +58,10 @@
         </div>
       </template>
     </draggable>
-    <div v-if="takingScreenshot" class="text-white text-center bg-red-700">
+    <div
+      v-if="takingScreenshot"
+      class="text-white text-center bg-purple-600 min-w-full"
+    >
       Genshin Impact TierMaker by @YaikaRace
     </div>
   </article>
@@ -146,19 +151,14 @@ export default defineComponent({
   methods: {
     async takeScreenshot() {
       const el = document.getElementById("tierlist");
-      const scale = window.devicePixelRatio;
       if (!el) return;
       this.takingScreenshot = true;
       domtoimage
         .toPng(el, {
           copyDefaultStyles: false,
           width: 1920,
-          height: 1080,
           style: {
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
-            width: "100%",
-            height: "100%",
+            width: "1920px",
           },
         })
         .then((dataURL: string) => {

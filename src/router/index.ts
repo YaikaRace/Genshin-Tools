@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/register",
     name: "register",
-    component: HomeView,
+    component: () => import("@/views/SignUp.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
