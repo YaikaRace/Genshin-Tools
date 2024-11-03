@@ -1,6 +1,6 @@
 <template>
   <header
-    class="h-12 w-screen bg-slate-900 fixed top-0 z-50 text-white border-white border-b-[1px]"
+    class="h-12 w-screen bg-slate-900 fixed top-0 z-50 text-white border-white border-b-[1px] shadow-lg shadow-slate-950"
   >
     <div class="w-11/12 mx-auto h-full flex items-center relative">
       <router-link
@@ -27,9 +27,12 @@
             v-for="button in footerButtons as any"
             :to="{ name: button.route }"
             class="navbar-button ml-1"
+            :exact-active-class="
+              button.selected ? button.selected : 'router-link-exact-active'
+            "
             :class="[
               button.color ? button.color : '',
-              button.hover ? 'hover:' + button.hover : '',
+              button.hover ? button.hover : '',
             ]"
             >{{ button.name }}</router-link
           >
@@ -107,8 +110,9 @@ export default defineComponent({
           id: 1,
           name: "Sign up",
           route: "register",
-          color: "bg-indigo-600",
-          hover: "bg-indigo-400",
+          color: "bg-purple-600",
+          hover: "hover:!bg-gray-300 hover:text-purple-600",
+          selected: "bg-white text-purple-400",
         },
       ],
     };
@@ -134,7 +138,7 @@ export default defineComponent({
   @apply transition-opacity duration-200;
 }
 .navbar-button {
-  @apply relative inline w-full h-full py-2 px-4 hover:bg-slate-800 rounded-lg;
+  @apply relative inline w-full h-full py-2 px-4 font-bold hover:bg-slate-700 rounded-lg;
 }
 .router-link-exact-active {
   @apply !bg-purple-600;
