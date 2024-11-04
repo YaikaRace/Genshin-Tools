@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/login",
     name: "login",
-    component: HomeView,
+    component: () => import("@/views/SignIn.vue"),
   },
   {
     path: "/register",
@@ -33,6 +33,20 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (_to, _from, next) => {
+  const baseUrl = process.env.VUE_APP_API_URL;
+  if (!baseUrl) return false;
+  const data = await fetch(baseUrl + "/user/auth/me", {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+    },
+  });
+  console.log(await data.json());
+  next();
 });
 
 export default router;

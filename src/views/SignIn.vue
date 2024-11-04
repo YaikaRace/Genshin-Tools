@@ -1,11 +1,7 @@
 <template>
   <div class="min-h-screen w-full flex flex-col justify-center items-center">
-    <h1 class="text-4xl font-bold text-white mb-4">Sign Up</h1>
-    <form
-      autocomplete="off"
-      @submit.prevent="signup"
-      class="md:w-11/12 md:max-w-sm"
-    >
+    <h1 class="text-4xl font-bold text-white mb-4">Sign In</h1>
+    <form @submit.prevent="signin" class="md:w-11/12 md:max-w-sm">
       <div class="form-item">
         <input
           type="text"
@@ -17,10 +13,6 @@
         <label for="username">Username</label>
       </div>
       <div class="form-item">
-        <input type="text" name="email" id="email" v-model="email" required />
-        <label for="email">Email</label>
-      </div>
-      <div class="form-item">
         <input
           type="password"
           name="password"
@@ -30,21 +22,11 @@
         />
         <label for="password">Password</label>
       </div>
-      <div class="form-item">
-        <input
-          type="password"
-          name="cpassword"
-          id="cpassword"
-          v-model="confirmPassword"
-          required
-        />
-        <label for="cpassword">Confirm Password</label>
-      </div>
       <button
         type="submit"
         class="bg-purple-600 w-full text-white font-bold py-2 rounded-lg"
       >
-        Sign Up
+        Sign In
       </button>
     </form>
   </div>
@@ -54,35 +36,32 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "SignUp",
+  name: "SignIn",
   data() {
     return {
       username: "",
-      email: "",
       password: "",
-      confirmPassword: "",
     };
   },
   methods: {
-    async signup() {
+    async signin() {
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
-      if (this.password !== this.confirmPassword) return;
-      const endpoint = `${baseURL}/user/auth/register`;
+      const endpoint = `${baseURL}/user/auth/login`;
       const response = await fetch(endpoint, {
         method: "POST",
+        credentials: "include",
         headers: {
           "x-access-key": process.env.VUE_APP_ACCESS_KEY,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: this.username,
-          email: this.email,
           password: this.password,
         }),
       });
       const json = await response.json();
-      this.$router.replace({ name: "login" });
+      this.$router.replace({ name: "home" });
       console.log(json);
     },
   },
