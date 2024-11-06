@@ -22,6 +22,9 @@
         />
         <label for="password">Password</label>
       </div>
+      <strong v-if="error" class="text-red-500 mb-4 block font-bold"
+        >Error: {{ error }}</strong
+      >
       <button
         type="submit"
         class="bg-purple-600 w-full text-white font-bold py-2 rounded-lg"
@@ -41,28 +44,33 @@ export default defineComponent({
     return {
       username: "",
       password: "",
+      error: "",
     };
   },
   methods: {
     async signin() {
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
-      const endpoint = `${baseURL}/user/auth/login`;
-      const response = await fetch(endpoint, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "x-access-key": process.env.VUE_APP_ACCESS_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: this.username,
-          password: this.password,
-        }),
-      });
-      const json = await response.json();
-      this.$router.replace({ name: "home" });
-      console.log(json);
+      try {
+        const endpoint = `${baseURL}/user/auth/login`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          }),
+        });
+        const json = await response.json();
+        this.$router.replace({ name: "home" });
+        console.log(json);
+      } catch {
+        this.error = "Login server is not available";
+      }
     },
   },
 });

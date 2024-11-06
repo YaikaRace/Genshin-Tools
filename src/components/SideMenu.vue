@@ -16,7 +16,7 @@
             }}</router-link>
           </li>
         </ul>
-        <ul class="min-h-full w-full mt-auto">
+        <ul v-if="!loggedIn" class="min-h-full w-full mt-auto">
           <li v-for="button in footerButtons as any" :key="button.id">
             <router-link
               :to="{ name: button.route }"
@@ -31,6 +31,9 @@
               >{{ button.name }}</router-link
             >
           </li>
+        </ul>
+        <ul v-else class="min-h-full w-full mt-auto">
+          <li>{{ userInfo.username }}</li>
         </ul>
       </div>
     </aside>
@@ -54,7 +57,7 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapState(["sideMenuVisible"]),
+    ...mapState(["sideMenuVisible", "loggedIn", "userInfo"]),
   },
   methods: {
     ...mapMutations(["sideMenuVisibility"]),

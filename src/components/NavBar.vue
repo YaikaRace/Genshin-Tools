@@ -1,15 +1,15 @@
 <template>
   <header
-    class="h-12 w-screen bg-slate-900 fixed top-0 z-50 text-white border-white border-b-[1px] shadow-lg shadow-slate-950"
+    class="h-12 w-screen bg-slate-900 fixed top-0 z-50 text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
   >
     <div class="w-11/12 mx-auto h-full flex items-center relative">
       <router-link
         :to="{ name: 'home' }"
-        class="font-bold text-2xl text-center min-w-fit p-1 rounded-md"
+        class="font-bold text-2xl text-center w-9 mr-6 invert"
         active-class="logo-active"
         exact-active-class="logo-exact-active"
       >
-        Genshin Tools
+        <img src="../assets/logo.png" alt="logo" class="w-full" />
       </router-link>
       <div class="hidden h-full w-full p-4 md:flex items-center">
         <div>
@@ -21,7 +21,7 @@
             >{{ page.name }}</router-link
           >
         </div>
-        <div class="ml-auto">
+        <div v-if="!loggedIn" class="ml-auto">
           <router-link
             :key="button.id"
             v-for="button in footerButtons as any"
@@ -37,6 +37,7 @@
             >{{ button.name }}</router-link
           >
         </div>
+        <div v-else class="ml-auto font-bold">{{ userInfo.username }}</div>
       </div>
       <div class="w-fit h-full md:hidden">
         <button
@@ -118,7 +119,7 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapState(["sideMenuVisible"]),
+    ...mapState(["sideMenuVisible", "loggedIn", "userInfo"]),
   },
   methods: {
     openSideMenu() {

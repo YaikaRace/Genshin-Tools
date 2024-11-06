@@ -47,6 +47,9 @@
         Sign Up
       </button>
     </form>
+    <strong v-if="error" class="text-red-500 mb-4 block font-bold"
+      >Error: {{ error }}</strong
+    >
   </div>
 </template>
 
@@ -61,6 +64,7 @@ export default defineComponent({
       email: "",
       password: "",
       confirmPassword: "",
+      error: "",
     };
   },
   methods: {
@@ -68,22 +72,26 @@ export default defineComponent({
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
       if (this.password !== this.confirmPassword) return;
-      const endpoint = `${baseURL}/user/auth/register`;
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "x-access-key": process.env.VUE_APP_ACCESS_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: this.username,
-          email: this.email,
-          password: this.password,
-        }),
-      });
-      const json = await response.json();
-      this.$router.replace({ name: "login" });
-      console.log(json);
+      try {
+        const endpoint = `${baseURL}/user/auth/register`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          }),
+        });
+        const json = await response.json();
+        this.$router.replace({ name: "login" });
+        console.log(json);
+      } catch {
+        this.error = "Register server is not available";
+      }
     },
   },
 });
