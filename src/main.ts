@@ -10,15 +10,37 @@ import {
   faBan,
   faBars,
   faXmark,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
 import store from "./store";
 
-library.add(faEyeDropper, faArrowsUpDown, faBan, faBars, faXmark);
+library.add(faEyeDropper, faArrowsUpDown, faBan, faBars, faXmark, faCaretDown);
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .component("font-awesome-icon", FontAwesomeIcon)
-  .mount("#app");
+(async () => {
+  const baseUrl = process.env.VUE_APP_API_URL;
+  if (!baseUrl) return false;
+  try {
+    const data = await fetch(baseUrl + "/user/auth/me", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+      },
+    });
+    const json = await data.json();
+    if (json.success !== undefined && !json.success) {
+      store.commit("setUserInfo", null);
+    } else {
+      store.commit("setUserInfo", json);
+    }
+  } catch (error) {
+    store.commit("setUserInfo", null);
+  }
+  createApp(App)
+    .use(store)
+    .use(router)
+    .component("font-awesome-icon", FontAwesomeIcon)
+    .mount("#app");
+})();

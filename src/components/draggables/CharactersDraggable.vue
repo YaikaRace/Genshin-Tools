@@ -47,40 +47,7 @@ export default defineComponent({
     };
   },
   async mounted() {
-    const data = await fetch("https://genshin.jmp.blue/characters/");
-    const json = await data.json();
-    const charPromises: Promise<Response>[] = [];
-    for (const char of json) {
-      charPromises.push(fetch(`https://genshin.jmp.blue/characters/${char}`));
-    }
-    const results = await Promise.allSettled(charPromises);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const jsonPromises: Promise<any>[] = [];
-    for (const result of results) {
-      if (result.status == "fulfilled") {
-        jsonPromises.push(result.value.json());
-      }
-    }
-    const jsonResults = await Promise.allSettled(jsonPromises);
-    for (const char of jsonResults) {
-      if (char.status == "rejected") return;
-      const character = (({
-        id,
-        name,
-        weapon,
-      }: {
-        id: string;
-        name: string;
-        weapon: string;
-      }) => ({
-        id,
-        name,
-        weapon,
-        nested: [],
-        type: "character",
-      }))(char.value);
-      this.chars.push(character);
-    }
+    await this.getCharacters();
   },
   methods: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,6 +55,45 @@ export default defineComponent({
       return evt.relatedContext.component.$attrs.group.accepts.includes(
         evt.draggedContext.element.type
       );
+    },
+    async getCharacters() {
+      const charactersCache = window.sessionStorage.getItem("characters");
+      if (charactersCache) {
+        this.chars = JSON.parse(charactersCache);
+        return;
+      }
+      const data = await fetch("https://genshin.jmp.blue/characters/");
+      const json = await data.json();
+      const results: Response[] = [];
+      for (const char of json) {
+        results.push(
+          await fetch(`https://genshin.jmp.blue/characters/${char}`)
+        );
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const jsons: any[] = [];
+      for (const result of results) {
+        jsons.push(await result.json());
+      }
+      for (const char of jsons) {
+        const character = (({
+          id,
+          name,
+          weapon,
+        }: {
+          id: string;
+          name: string;
+          weapon: string;
+        }) => ({
+          id,
+          name,
+          weapon,
+          nested: [],
+          type: "character",
+        }))(char);
+        this.chars.push(character);
+      }
+      window.sessionStorage.setItem("characters", JSON.stringify(this.chars));
     },
   },
 });

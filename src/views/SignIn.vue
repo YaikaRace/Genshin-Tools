@@ -36,6 +36,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -66,10 +67,29 @@ export default defineComponent({
           }),
         });
         const json = await response.json();
+        if (json.success !== undefined && !json.success) {
+          this.error = "Username or Password is invalid";
+        }
         this.$router.replace({ name: "home" });
-        console.log(json);
       } catch {
         this.error = "Login server is not available";
+      }
+      try {
+        const data = await fetch(baseURL + "/user/auth/me", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+          },
+        });
+        const json = await data.json();
+        if (json.success !== undefined && !json.success) {
+          store.commit("setUserInfo", null);
+        } else {
+          store.commit("setUserInfo", json);
+        }
+      } catch (error) {
+        store.commit("setUserInfo", null);
       }
     },
   },

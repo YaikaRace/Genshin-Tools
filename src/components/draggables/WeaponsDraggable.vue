@@ -53,38 +53,7 @@ export default defineComponent({
     };
   },
   async mounted() {
-    const data = await fetch("https://genshin.jmp.blue/weapons/");
-    const json = await data.json();
-    const weaponPromises = [];
-    for (const weapon of json) {
-      weaponPromises.push(fetch(`https://genshin.jmp.blue/weapons/${weapon}`));
-    }
-    const results = await Promise.allSettled(weaponPromises);
-    const jsonPromises = [];
-    for (const result of results) {
-      if (result.status == "fulfilled") {
-        jsonPromises.push(result.value.json());
-      }
-    }
-    const jsonResults = await Promise.allSettled(jsonPromises);
-    for (const weapon of jsonResults) {
-      if (weapon.status == "rejected") return;
-      const weaponObj = (({
-        id,
-        name,
-        type,
-      }: {
-        id: string;
-        name: string;
-        type: string;
-      }) => ({
-        id,
-        name,
-        weaponType: type,
-        type: "weapon",
-      }))(weapon.value);
-      this.weapons.push(weaponObj);
-    }
+    await this.getWeapons();
   },
   methods: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,6 +61,41 @@ export default defineComponent({
       return evt.relatedContext.component.$attrs.group.accepts.includes(
         evt.draggedContext.element.type
       );
+    },
+    async getWeapons() {
+      const weaponsCache = window.sessionStorage.getItem("weapons");
+      if (weaponsCache) {
+        this.weapons = JSON.parse(weaponsCache);
+        return;
+      }
+      const data = await fetch("https://genshin.jmp.blue/weapons/");
+      const json = await data.json();
+      const results = [];
+      for (const weapon of json) {
+        results.push(await fetch(`https://genshin.jmp.blue/weapons/${weapon}`));
+      }
+      const jsons = [];
+      for (const result of results) {
+        jsons.push(await result.json());
+      }
+      for (const weapon of jsons) {
+        const weaponObj = (({
+          id,
+          name,
+          type,
+        }: {
+          id: string;
+          name: string;
+          type: string;
+        }) => ({
+          id,
+          name,
+          weaponType: type,
+          type: "weapon",
+        }))(weapon);
+        this.weapons.push(weaponObj);
+      }
+      window.sessionStorage.setItem("weapons", JSON.stringify(this.weapons));
     },
   },
 });

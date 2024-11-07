@@ -1,6 +1,6 @@
 <template>
   <header
-    class="h-12 w-screen bg-slate-900 fixed top-0 z-50 text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
+    class="h-12 w-screen bg-slate-900 fixed top-0 z-[1] text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
   >
     <div class="w-11/12 mx-auto h-full flex items-center relative">
       <router-link
@@ -37,13 +37,13 @@
             >{{ button.name }}</router-link
           >
         </div>
-        <div v-else class="ml-auto font-bold">{{ userInfo.username }}</div>
+        <user-dropdown v-else class="ml-auto" />
       </div>
       <div class="w-fit h-full md:hidden">
         <button
           @click.prevent="openSideMenu"
           type="button"
-          class="w-fit h-full absolute right-0 z-[51]"
+          class="w-fit h-full absolute right-0 z-[100]"
         >
           <div class="w-6 h-6 relative">
             <font-awesome-icon
@@ -64,13 +64,6 @@
             />
           </div>
         </button>
-        <transition name="bg">
-          <div
-            v-show="sideMenuVisible"
-            class="bg-black opacity-60 fixed w-full min-h-screen top-0 left-0 transition-all duration-200"
-          ></div>
-        </transition>
-        <side-menu :pages="pages" :footer-buttons="footerButtons" />
       </div>
     </div>
   </header>
@@ -78,46 +71,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SideMenu from "./SideMenu.vue";
+import UserDropdown from "./UserDropdown.vue";
 import store from "@/store";
 import { mapState } from "vuex";
 
 export default defineComponent({
   name: "NavBar",
   components: {
-    SideMenu,
+    UserDropdown,
   },
-  data() {
-    return {
-      pages: [
-        {
-          id: 0,
-          name: "Home",
-          route: "home",
-        },
-        {
-          id: 1,
-          name: "TierMaker",
-          route: "tiermaker",
-        },
-      ],
-      footerButtons: [
-        {
-          id: 0,
-          name: "Sign in",
-          route: "login",
-        },
-        {
-          id: 1,
-          name: "Sign up",
-          route: "register",
-          color: "!bg-purple-600",
-          hover: "hover:!bg-gray-300 hover:text-purple-700",
-          selected: "!bg-white !text-purple-600 !border-b-4 border-purple-600",
-        },
-      ],
-    };
-  },
+  props: ["pages", "footerButtons"],
   computed: {
     ...mapState(["sideMenuVisible", "loggedIn", "userInfo"]),
   },
@@ -130,14 +93,6 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.bg-enter-from,
-.bg-leave-to {
-  @apply opacity-0;
-}
-.bg-enter-active,
-.bg-leave-active {
-  @apply transition-opacity duration-200;
-}
 .navbar-button {
   @apply relative inline w-full h-full py-2 px-4 font-bold hover:bg-slate-700 rounded-lg;
 }

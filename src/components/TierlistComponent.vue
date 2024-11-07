@@ -1,5 +1,5 @@
 <template>
-  <article id="tierlist" class="h-full min-w-full bg-slate-800">
+  <section id="tierlist" class="h-full min-w-full bg-slate-800">
     <draggable
       :list="tiers"
       group="tiers"
@@ -64,7 +64,7 @@
     >
       Genshin Impact TierMaker by @YaikaRace
     </div>
-  </article>
+  </section>
   <div>
     <div class="my-6">
       <button
@@ -165,8 +165,8 @@ export default defineComponent({
           this.screenshot = dataURL;
           this.takingScreenshot = false;
         })
-        .catch((err: Error) => {
-          console.log(err);
+        .catch(() => {
+          console.log("Error taking screenshot");
         });
     },
     deleteScreenshot() {

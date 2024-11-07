@@ -87,8 +87,10 @@ export default defineComponent({
           }),
         });
         const json = await response.json();
+        if (json.success !== undefined && !json.success) {
+          this.error = json.message;
+        }
         this.$router.replace({ name: "login" });
-        console.log(json);
       } catch {
         this.error = "Register server is not available";
       }
