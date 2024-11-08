@@ -11,18 +11,27 @@ import {
   faBars,
   faXmark,
   faCaretDown,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
 import store from "./store";
 
-library.add(faEyeDropper, faArrowsUpDown, faBan, faBars, faXmark, faCaretDown);
+library.add(
+  faEyeDropper,
+  faArrowsUpDown,
+  faBan,
+  faBars,
+  faXmark,
+  faCaretDown,
+  faSpinner
+);
 
 (async () => {
   const baseUrl = process.env.VUE_APP_API_URL;
   if (!baseUrl) return false;
   try {
-    const data = await fetch(baseUrl + "/user/auth/me", {
+    const data = await fetch(baseUrl + "/user/info/me", {
       method: "GET",
       credentials: "include",
       headers: {

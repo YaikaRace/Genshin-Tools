@@ -40,20 +40,28 @@
         />
         <label for="cpassword">Confirm Password</label>
       </div>
+      <strong v-if="error" class="text-red-500 mb-4 block font-bold"
+        >Error: {{ error }}</strong
+      >
       <button
         type="submit"
-        class="bg-purple-600 w-full text-white font-bold py-2 rounded-lg"
+        :disabled="loading"
+        class="bg-purple-600 w-full text-white font-bold py-2 rounded-lg disabled:bg-purple-900 disabled:text-gray-400 disabled:cursor-not-allowed"
       >
-        Sign Up
+        <span v-if="!loading">Sign Up</span>
+        <span v-else class="h-full"
+          ><font-awesome-icon
+            icon="fa-solid fa-spinner"
+            spin-pulse
+            class="max-h-full"
+        /></span>
       </button>
     </form>
-    <strong v-if="error" class="text-red-500 mb-4 block font-bold"
-      >Error: {{ error }}</strong
-    >
   </div>
 </template>
 
 <script lang="ts">
+import isEmail from "@/utils/isEmail";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -65,13 +73,35 @@ export default defineComponent({
       password: "",
       confirmPassword: "",
       error: "",
+      loading: false,
     };
   },
   methods: {
     async signup() {
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
-      if (this.password !== this.confirmPassword) return;
+      this.error = "";
+      if (this.username.length < 3) {
+        this.error = "Username must be at least 3 characters";
+        return;
+      }
+      if (!isEmail(this.email)) {
+        this.error = "Invalid Email";
+        return;
+      }
+      if (this.password.length < 6) {
+        this.error = "Password must be at least 6 characters";
+        return;
+      }
+      if (this.password.length > 50) {
+        this.error = "Password must not contain more than 50 characters";
+        return;
+      }
+      if (this.password !== this.confirmPassword) {
+        this.error = "Passwords doesn't match";
+        return;
+      }
+      this.loading = true;
       try {
         const endpoint = `${baseURL}/user/auth/register`;
         const response = await fetch(endpoint, {
@@ -89,10 +119,13 @@ export default defineComponent({
         const json = await response.json();
         if (json.success !== undefined && !json.success) {
           this.error = json.message;
+          this.loading = false;
+          return;
         }
         this.$router.replace({ name: "login" });
       } catch {
         this.error = "Register server is not available";
+        this.loading = false;
       }
     },
   },

@@ -1,12 +1,14 @@
 <template>
   <footer>
     <div class="dropdown hidden font-bold relative min-w-32 h-fit md:block">
-      <button class="text-center border-2 border-b-0 border-transparent w-full">
+      <button
+        class="text-center border-2 border-b-0 rounded-t-lg border-transparent w-full"
+      >
         {{ userInfo.username }}
         <font-awesome-icon icon="fa-solid fa-caret-down" class="ml-1" />
       </button>
       <ul
-        class="absolute hidden text-center min-w-full border-2 border-t-0 border-transparent"
+        class="absolute hidden text-center min-w-full border-2 border-t-0 rounded-b-lg border-transparent"
       >
         <li>
           <router-link :to="{ name: 'settings' }" class="drop-button"
@@ -65,7 +67,7 @@ export default defineComponent({
   @apply min-w-full min-h-full block;
 }
 .drop-button {
-  @apply block min-w-full min-h-full py-1 hover:bg-slate-700;
+  @apply block min-w-full min-h-full py-1 hover:bg-slate-700 rounded-lg;
 }
 details {
   @apply border-2 border-transparent cursor-pointer;

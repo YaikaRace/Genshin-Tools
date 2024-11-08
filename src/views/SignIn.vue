@@ -27,9 +27,16 @@
       >
       <button
         type="submit"
-        class="bg-purple-600 w-full text-white font-bold py-2 rounded-lg"
+        :disabled="loading"
+        class="bg-purple-600 min-h-10 w-full text-white font-bold py-2 rounded-lg disabled:bg-purple-900 disabled:text-gray-400 disabled:cursor-not-allowed"
       >
-        Sign In
+        <span v-if="!loading">Sign In</span>
+        <span v-else class="h-full"
+          ><font-awesome-icon
+            icon="fa-solid fa-spinner"
+            spin-pulse
+            class="max-h-full"
+        /></span>
       </button>
     </form>
   </div>
@@ -46,12 +53,20 @@ export default defineComponent({
       username: "",
       password: "",
       error: "",
+      loading: false,
     };
   },
   methods: {
     async signin() {
+      this.error = "";
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
+      this.loading = true;
+      if (this.username.length < 3) {
+        this.error = "Username or Password is invalid";
+        this.loading = false;
+        return;
+      }
       try {
         const endpoint = `${baseURL}/user/auth/login`;
         const response = await fetch(endpoint, {
@@ -69,13 +84,14 @@ export default defineComponent({
         const json = await response.json();
         if (json.success !== undefined && !json.success) {
           this.error = "Username or Password is invalid";
+          this.loading = false;
+          return;
         }
-        this.$router.replace({ name: "home" });
       } catch {
         this.error = "Login server is not available";
       }
       try {
-        const data = await fetch(baseURL + "/user/auth/me", {
+        const data = await fetch(baseURL + "/user/info/me", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -91,6 +107,7 @@ export default defineComponent({
       } catch (error) {
         store.commit("setUserInfo", null);
       }
+      this.$router.replace({ name: "home" });
     },
   },
 });

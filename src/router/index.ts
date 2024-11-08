@@ -43,7 +43,6 @@ const routes: RouteRecordRaw[] = [
         },
       });
       const json = await result.json();
-      console.log(json);
       if (json.success !== undefined && json.success) {
         store.commit("setUserInfo", null);
       }
@@ -67,7 +66,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/settings",
     name: "settings",
-    component: HomeView,
+    component: () => import("@/views/UserSettings.vue"),
     meta: {
       title: "Settings",
     },
