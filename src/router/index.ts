@@ -36,7 +36,7 @@ const routes: RouteRecordRaw[] = [
       const baseUrl = process.env.VUE_APP_API_URL;
       if (!baseUrl) return false;
       const result = await fetch(baseUrl + "/user/auth/logout", {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         headers: {
           "x-access-key": process.env.VUE_APP_ACCESS_KEY,
