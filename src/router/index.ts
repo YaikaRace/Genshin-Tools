@@ -33,6 +33,7 @@ const routes: RouteRecordRaw[] = [
     path: "/logout",
     name: "logout",
     beforeEnter: async () => {
+      window.sessionStorage.removeItem("userData");
       const baseUrl = process.env.VUE_APP_API_URL;
       if (!baseUrl) return false;
       const result = await fetch(baseUrl + "/user/auth/logout", {
@@ -69,6 +70,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/views/UserSettings.vue"),
     meta: {
       title: "Settings",
+      requireAuth: true,
     },
   },
   {

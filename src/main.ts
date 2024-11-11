@@ -12,6 +12,7 @@ import {
   faXmark,
   faCaretDown,
   faSpinner,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
@@ -24,28 +25,35 @@ library.add(
   faBars,
   faXmark,
   faCaretDown,
-  faSpinner
+  faSpinner,
+  faPlus
 );
 
 (async () => {
-  const baseUrl = process.env.VUE_APP_API_URL;
-  if (!baseUrl) return false;
-  try {
-    const data = await fetch(baseUrl + "/user/info/me", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "x-access-key": process.env.VUE_APP_ACCESS_KEY,
-      },
-    });
-    const json = await data.json();
-    if (json.success !== undefined && !json.success) {
+  const userData = window.sessionStorage.getItem("userData");
+  if (userData) {
+    store.commit("setUserInfo", JSON.parse(userData));
+  } else {
+    const baseUrl = process.env.VUE_APP_API_URL;
+    if (!baseUrl) return false;
+    try {
+      const data = await fetch(baseUrl + "/user/info/me", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+        },
+      });
+      const json = await data.json();
+      if (json.success !== undefined && !json.success) {
+        store.commit("setUserInfo", null);
+      } else {
+        store.commit("setUserInfo", json);
+        window.sessionStorage.setItem("userData", JSON.stringify(json));
+      }
+    } catch (error) {
       store.commit("setUserInfo", null);
-    } else {
-      store.commit("setUserInfo", json);
     }
-  } catch (error) {
-    store.commit("setUserInfo", null);
   }
   createApp(App)
     .use(store)

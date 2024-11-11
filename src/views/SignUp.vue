@@ -6,42 +6,36 @@
       @submit.prevent="signup"
       class="md:w-11/12 md:max-w-sm"
     >
-      <div class="form-item">
-        <input
-          type="text"
-          name="username"
-          id="username"
-          v-model="username"
-          required
-        />
-        <label for="username">Username</label>
-      </div>
-      <div class="form-item">
-        <input type="text" name="email" id="email" v-model="email" required />
-        <label for="email">Email</label>
-      </div>
-      <div class="form-item">
-        <input
-          type="password"
-          name="password"
-          id="password"
-          v-model="password"
-          required
-        />
-        <label for="password">Password</label>
-      </div>
-      <div class="form-item">
-        <input
-          type="password"
-          name="cpassword"
-          id="cpassword"
-          v-model="confirmPassword"
-          required
-        />
-        <label for="cpassword">Confirm Password</label>
-      </div>
-      <strong v-if="error" class="text-red-500 mb-4 block font-bold"
-        >Error: {{ error }}</strong
+      <form-input
+        v-model="username"
+        type="text"
+        name="Username"
+        :error="errors.username"
+        @focused="errors.username = ''"
+      />
+      <form-input
+        v-model="email"
+        type="email"
+        name="Email"
+        :error="errors.email"
+        @focused="errors.email = ''"
+      />
+      <form-input
+        v-model="password"
+        type="password"
+        name="Password"
+        :error="errors.password"
+        @focused="errors.password = ''"
+      />
+      <form-input
+        v-model="confirmPassword"
+        type="password"
+        name="Confirm Password"
+        :error="errors.confirmPassword"
+        @focused="errors.confirmPassword = ''"
+      />
+      <strong v-if="errors.error" class="error"
+        >Error: {{ errors.error }}</strong
       >
       <button
         type="submit"
@@ -61,18 +55,28 @@
 </template>
 
 <script lang="ts">
+import FormInput from "@/components/forms/FormInput.vue";
 import isEmail from "@/utils/isEmail";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SignUp",
+  components: {
+    FormInput,
+  },
   data() {
     return {
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
-      error: "",
+      errors: {
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        error: "",
+      } as { [key: string]: string },
       loading: false,
     };
   },
@@ -80,26 +84,30 @@ export default defineComponent({
     async signup() {
       const baseURL = process.env.VUE_APP_API_URL;
       if (!baseURL) return;
-      this.error = "";
+      for (const key of Object.keys(this.errors)) {
+        this.errors[key] = "";
+      }
       if (this.username.length < 3) {
-        this.error = "Username must be at least 3 characters";
-        return;
+        this.errors.username = "Username must be at least 3 characters";
       }
       if (!isEmail(this.email)) {
-        this.error = "Invalid Email";
-        return;
+        this.errors.email = "Invalid Email";
       }
       if (this.password.length < 6) {
-        this.error = "Password must be at least 6 characters";
-        return;
+        this.errors.password = "Password must be at least 6 characters";
       }
       if (this.password.length > 50) {
-        this.error = "Password must not contain more than 50 characters";
-        return;
+        this.errors.password =
+          "Password must not contain more than 50 characters";
       }
       if (this.password !== this.confirmPassword) {
-        this.error = "Passwords doesn't match";
-        return;
+        this.errors.confirmPassword = "Passwords doesn't match";
+      }
+      for (const key of Object.keys(this.errors)) {
+        if (this.errors[key] !== "") {
+          return;
+        }
+        continue;
       }
       this.loading = true;
       try {
@@ -118,38 +126,16 @@ export default defineComponent({
         });
         const json = await response.json();
         if (json.success !== undefined && !json.success) {
-          this.error = json.message;
+          this.errors.error = json.message;
           this.loading = false;
           return;
         }
         this.$router.replace({ name: "login" });
       } catch {
-        this.error = "Register server is not available";
+        this.errors.error = "Register server is not available";
         this.loading = false;
       }
     },
   },
 });
 </script>
-
-<style lang="postcss" scoped>
-.form-item {
-  @apply relative my-4;
-}
-input {
-  @apply w-full border-solid border-2 border-gray-500 px-2 py-1 bg-slate-900 text-white caret-white transition-colors duration-200 rounded-lg;
-}
-input:focus {
-  @apply border-purple-600 outline-none;
-}
-label {
-  @apply absolute left-2 top-1 text-gray-500 font-medium cursor-text transition-all duration-200;
-}
-input:focus + label {
-  @apply text-purple-600 font-semibold;
-}
-input:focus + label,
-input:valid + label {
-  @apply -top-3 bg-slate-800 text-xs;
-}
-</style>
