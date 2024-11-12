@@ -3,7 +3,7 @@
     <aside
       v-show="sideMenuVisible"
       @click.self="sideMenuVisibility"
-      class="text-white fixed min-h-screen min-w-full z-[1] top-0 left-0 md:hidden"
+      class="text-white fixed min-h-[100dvh] min-w-full z-[1] top-0 left-0 md:hidden"
     >
       <div
         class="min-h-full min-w-56 bg-slate-900 fixed right-0 flex flex-col items-center p-4 text-center"

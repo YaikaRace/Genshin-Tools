@@ -110,6 +110,8 @@ export default defineComponent({
         continue;
       }
       this.loading = true;
+      // @ts-expect-error progress
+      this.$Progress.start();
       try {
         const endpoint = `${baseURL}/user/auth/register`;
         const response = await fetch(endpoint, {
@@ -128,12 +130,18 @@ export default defineComponent({
         if (json.success !== undefined && !json.success) {
           this.errors.error = json.message;
           this.loading = false;
+          // @ts-expect-error progress
+          this.$Progress.fail();
           return;
         }
-        this.$router.replace({ name: "login" });
+        // @ts-expect-error progress
+        this.$Progress.finish();
+        this.$router.replace({ name: "login", query: { success: "true" } });
       } catch {
         this.errors.error = "Register server is not available";
         this.loading = false;
+        // @ts-expect-error progress
+        this.$Progress.fail();
       }
     },
   },

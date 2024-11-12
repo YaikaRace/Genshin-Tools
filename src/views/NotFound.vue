@@ -20,5 +20,9 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "NotFound",
+  emits: ["failed"],
+  mounted() {
+    this.$emit("failed");
+  },
 });
 </script>

@@ -18,8 +18,11 @@
         @focused="errors.password = ''"
         required
       />
-      <strong v-if="errors.error" class="text-red-500 mb-4 block font-bold"
+      <strong v-if="errors.error" class="text-red-400 mb-4 block font-bold"
         >Error: {{ errors.error }}</strong
+      >
+      <strong v-if="signup" class="text-green-400 mb-4 block font-bold"
+        >You have successfully Registered, you must now Log In</strong
       >
       <button
         type="submit"
@@ -65,6 +68,7 @@ export default defineComponent({
         error: "",
       } as SignInErrors,
       loading: false,
+      signup: Boolean(this.$route.query.success),
     };
   },
   methods: {
@@ -87,6 +91,8 @@ export default defineComponent({
         continue;
       }
       this.loading = true;
+      // @ts-expect-error progress
+      this.$Progress.start();
       try {
         const endpoint = `${baseURL}/user/auth/login`;
         const response = await fetch(endpoint, {
@@ -105,11 +111,15 @@ export default defineComponent({
         if (json.success !== undefined && !json.success) {
           this.errors.error = "Username or Password is invalid";
           this.loading = false;
+          // @ts-expect-error progress
+          this.$Progress.fail();
           return;
         }
       } catch {
         this.errors.error = "Login server is not available, try again later";
         this.loading = false;
+        // @ts-expect-error progress
+        this.$Progress.fail();
         return;
       }
       try {
@@ -124,6 +134,8 @@ export default defineComponent({
         if (json.success !== undefined && !json.success) {
           store.commit("setUserInfo", null);
           this.loading = false;
+          // @ts-expect-error progress
+          this.$Progress.fail();
           return;
         } else {
           store.commit("setUserInfo", json);
@@ -132,9 +144,13 @@ export default defineComponent({
       } catch (error) {
         store.commit("setUserInfo", null);
         this.loading = false;
+        // @ts-expect-error progress
+        this.$Progress.fail();
         return;
       }
       this.$router.replace({ name: "home" });
+      // @ts-expect-error progress
+      this.$Progress.finish();
     },
   },
 });

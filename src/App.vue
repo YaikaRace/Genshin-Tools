@@ -7,7 +7,8 @@
     ></div>
   </transition>
   <side-menu :pages="pages" :footer-buttons="footerButtons" />
-  <router-view />
+  <router-view @failed="$Progress.fail()" />
+  <vue-progress-bar></vue-progress-bar>
 </template>
 
 <script>
@@ -55,6 +56,18 @@ export default defineComponent({
   },
   computed: {
     ...mapState(["sideMenuVisible"]),
+  },
+  beforeCreate() {
+    this.$Progress.start();
+    this.$router.beforeEach(() => {
+      this.$Progress.start();
+    });
+    this.$router.afterEach(() => {
+      this.$Progress.finish();
+    });
+  },
+  mounted() {
+    this.$Progress.finish();
   },
 });
 </script>

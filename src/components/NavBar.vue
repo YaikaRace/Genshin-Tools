@@ -2,7 +2,9 @@
   <header
     class="h-12 w-screen bg-slate-900 fixed top-0 z-[1] text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
   >
-    <div class="w-11/12 mx-auto h-full flex items-center relative">
+    <div
+      class="w-11/12 max-w-[70rem] mx-auto h-full flex items-center relative"
+    >
       <router-link
         :to="{ name: 'home' }"
         class="font-bold text-2xl text-center w-9 mr-6 invert"

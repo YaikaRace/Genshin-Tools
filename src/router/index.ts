@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import NotFound from "@/views/NotFound.vue";
 import store from "@/store";
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("@/views/HomeView.vue"),
     meta: {
       title: "Home",
     },
@@ -15,7 +13,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/tiermaker",
     name: "tiermaker",
-    component: HomeView,
+    component: () => import("@/views/HomeView.vue"),
     meta: {
       title: "Tier Maker",
     },
@@ -47,9 +45,9 @@ const routes: RouteRecordRaw[] = [
       if (json.success !== undefined && json.success) {
         store.commit("setUserInfo", null);
       }
-      return { name: "home" };
+      router.replace({ name: "home" });
     },
-    component: HomeView,
+    component: () => import("@/views/HomeView.vue"),
     meta: {
       title: "Log Out",
       requireAuth: true,
@@ -76,7 +74,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/:pathMatch(.*)*",
     name: "notFound",
-    component: NotFound,
+    component: () => import("@/views/NotFound.vue"),
     meta: {
       title: "Not Found",
     },

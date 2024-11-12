@@ -49,12 +49,13 @@
             />
             <div class="min-h-20 h-full w-20 grow md:min-h-32 md:w-32 table">
               <div class="table-row">
-                <div
+                <contenteditable
                   contenteditable
+                  tag="div"
+                  v-model="element.name"
+                  no-nl
                   class="table-cell align-middle text-center font-bold break-words p-4 max-w-20 md:max-w-32"
-                >
-                  {{ element.name }}
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -78,10 +79,10 @@
       />
     </button>
     <div
-      class="sshidden text-white hidden text-center bg-purple-600 min-w-full"
+      class="absolute right-4 z-20 bottom-2 hidden opacity-60 text-gray-500 p-1 text-center"
       id="watermark"
     >
-      Genshin Impact TierMaker by @YaikaRace
+      Genshin Impact TierMaker by @YaikaRace - https://gitools.vercel.app
     </div>
   </section>
   <div>
@@ -89,9 +90,13 @@
       <button
         @click.prevent="takeScreenshot"
         :disabled="takingScreenshot"
-        class="text-white min-w-[11ch] text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg"
+        class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg"
       >
-        <span v-if="!takingScreenshot">Screenshot</span>
+        <span v-if="!takingScreenshot"
+          ><font-awesome-icon
+            icon="fa-solid fa-camera"
+            class="max-h-full w-full"
+        /></span>
         <span v-else class="h-full"
           ><font-awesome-icon
             icon="fa-solid fa-spinner"
@@ -99,20 +104,39 @@
             class="max-h-full"
         /></span>
       </button>
+      <a
+        v-if="screenshot"
+        :href="screenshot"
+        download="tierlist"
+        class="text-white inline-block text-center min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
+        ><font-awesome-icon icon="download" class="max-h-full"
+      /></a>
       <button
+        v-if="screenshot"
         @click.prevent="deleteScreenshot"
         :disabled="takingScreenshot"
-        class="text-white text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
+        class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
       >
-        Delete Screenshot
+        <font-awesome-icon icon="trash" class="max-h-full" />
       </button>
+      <button
+        v-if="screenshot"
+        @click.prevent="deleteScreenshot"
+        :disabled="takingScreenshot"
+        class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
+      >
+        <font-awesome-icon icon="save" class="max-h-full" />
+      </button>
+      <div
+        v-if="screenshot && !loggedIn"
+        class="absolute inline-block bg-gray-300 p-2 rounded-lg ml-4 after:content-[''] after:absolute after:w-0 after:h-0 after:left-0 after:top-1/2 after:border-8 after:border-transparent after:border-r-gray-300 after:-ml-4"
+      >
+        You have to Sign In or Sign Up
+      </div>
     </div>
-    <img
-      :src="screenshot"
-      alt="screenshot"
-      v-show="screenshot != ''"
-      class="border-2 border-white my-6"
-    />
+    <div v-if="screenshot" class="w-full border-2 border-white my-6 p-4">
+      <img :src="screenshot" alt="screenshot" class="w-full" />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -121,6 +145,8 @@ import TierComponent from "./draggables/TierComponent.vue";
 import draggable from "vuedraggable";
 import ColorModal from "./modals/ColorModal.vue";
 import html2canvas from "html2canvas";
+import { mapState } from "vuex";
+import contenteditable from "vue-contenteditable";
 
 export default defineComponent({
   name: "TierlistComponent",
@@ -128,6 +154,7 @@ export default defineComponent({
     TierComponent,
     draggable,
     ColorModal,
+    contenteditable,
   },
   data() {
     return {
@@ -165,19 +192,22 @@ export default defineComponent({
       takingScreenshot: false,
     };
   },
+  computed: {
+    ...mapState(["loggedIn"]),
+  },
   methods: {
     async takeScreenshot() {
       const el = document.getElementById("tierlist");
       if (!el) return;
       this.takingScreenshot = true;
+      const height = el.offsetHeight;
       html2canvas(el, {
-        width: 1920,
-        windowWidth: 1920,
+        windowWidth: 1120,
+        windowHeight: height,
         useCORS: true,
         logging: false,
         onclone: (_document, element) => {
           element.style.minWidth = "100vw";
-          element.style.minHeight = "100vh";
           element.style.position = "fixed";
           element.style.right = "0";
           element.style.top = "0";
@@ -203,7 +233,7 @@ export default defineComponent({
       this.tiers.push({
         id: this.tiers.length + 1,
         name: "Tier",
-        color: "bg-yellow-500",
+        color: "bg-yellow-400",
         nested: [],
         modal: false,
       });

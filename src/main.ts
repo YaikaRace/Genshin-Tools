@@ -3,6 +3,7 @@ import App from "./App.vue";
 import "./assets/tailwind.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import progressbar from "@aacassandra/vue3-progressbar";
 
 import {
   faEyeDropper,
@@ -13,6 +14,10 @@ import {
   faCaretDown,
   faSpinner,
   faPlus,
+  faCamera,
+  faDownload,
+  faTrash,
+  faSave,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
@@ -26,7 +31,11 @@ library.add(
   faXmark,
   faCaretDown,
   faSpinner,
-  faPlus
+  faPlus,
+  faCamera,
+  faTrash,
+  faDownload,
+  faSave
 );
 
 (async () => {
@@ -58,6 +67,19 @@ library.add(
   createApp(App)
     .use(store)
     .use(router)
+    .use(progressbar, {
+      color: "#9333ea",
+      failedColor: "#f87171",
+      thickness: "2px",
+      transition: {
+        speed: "0.6s",
+        opacity: "0.6s",
+        termination: 400,
+      },
+      autoRevert: true,
+      location: "top",
+      inverse: false,
+    })
     .component("font-awesome-icon", FontAwesomeIcon)
     .mount("#app");
 })();
