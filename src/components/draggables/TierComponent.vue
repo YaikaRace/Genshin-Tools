@@ -15,6 +15,7 @@
       delay-on-touch-only="true"
       :move="onMove"
       :animation="200"
+      :disabled="disabled"
     >
       <template #item="{ element }">
         <div
@@ -26,7 +27,10 @@
             :alt="`${element.id.toLowerCase()}-icon`"
             class="inline w-20 h-20 md:w-32 md:h-32"
           />
-          <character-weapon-draggable :list="element.nested" />
+          <character-weapon-draggable
+            :disabled="disabled"
+            :list="element.nested"
+          />
         </div>
         <div class="hover:cursor-move" v-else>
           <img
@@ -67,6 +71,10 @@ export default defineComponent({
       default() {
         return [];
       },
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

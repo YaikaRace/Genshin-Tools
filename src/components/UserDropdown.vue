@@ -11,6 +11,11 @@
         class="absolute hidden text-center min-w-full border-2 border-t-0 rounded-b-lg border-transparent"
       >
         <li>
+          <router-link :to="{ name: 'profile' }" class="drop-button"
+            >Profile</router-link
+          >
+        </li>
+        <li>
           <router-link :to="{ name: 'settings' }" class="drop-button"
             >Settings</router-link
           >
@@ -28,6 +33,11 @@
         <ul
           class="text-center min-w-full border-2 border-t-0 border-transparent"
         >
+          <li>
+            <router-link :to="{ name: 'profile' }" class="drop-button py-2"
+              >Profile</router-link
+            >
+          </li>
           <li>
             <router-link :to="{ name: 'settings' }" class="drop-button py-2"
               >Settings</router-link

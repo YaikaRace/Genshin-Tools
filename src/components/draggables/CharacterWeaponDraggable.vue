@@ -13,6 +13,7 @@
       tag="div"
       class="h-12 w-12 md:h-16 md:w-16 absolute bottom-0 right-0"
       :animation="200"
+      :disabled="disabled"
     >
       <template #item="{ element }">
         <img
@@ -40,6 +41,10 @@ export default defineComponent({
       default() {
         return [];
       },
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
 });

@@ -18,6 +18,7 @@ import {
   faDownload,
   faTrash,
   faSave,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import router from "./router";
@@ -35,6 +36,7 @@ library.add(
   faCamera,
   faTrash,
   faDownload,
+  faShare,
   faSave
 );
 
@@ -56,19 +58,21 @@ library.add(
       const json = await data.json();
       if (json.success !== undefined && !json.success) {
         store.commit("setUserInfo", null);
+        window.sessionStorage.setItem("userData", "null");
       } else {
         store.commit("setUserInfo", json);
         window.sessionStorage.setItem("userData", JSON.stringify(json));
       }
     } catch (error) {
       store.commit("setUserInfo", null);
+      window.sessionStorage.setItem("userData", "null");
     }
   }
   createApp(App)
     .use(store)
     .use(router)
     .use(progressbar, {
-      color: "#9333ea",
+      color: "#a855f7",
       failedColor: "#f87171",
       thickness: "5px",
       transition: {

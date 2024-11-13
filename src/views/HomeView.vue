@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen w-11/12 max-w-[70rem] mx-auto mt-20">
+  <article class="min-h-screen w-11/12 max-w-[70rem] mx-auto mt-10">
     <tierlist-component />
-    <div>
+    <section>
       <tabs :tabs="tabs" @tab-selected="(v: number) => selectedTab = v">
         <tab :active="selectedTab == 0">
           <characters-draggable />
@@ -10,8 +10,8 @@
           <weapons-draggable />
         </tab>
       </tabs>
-    </div>
-  </div>
+    </section>
+  </article>
 </template>
 
 <script lang="ts">

@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
     path: "/logout",
     name: "logout",
     beforeEnter: async () => {
-      window.sessionStorage.removeItem("userData");
+      window.sessionStorage.setItem("userData", "null");
       const baseUrl = process.env.VUE_APP_API_URL;
       if (!baseUrl) return false;
       const result = await fetch(baseUrl + "/user/auth/logout", {
@@ -63,12 +63,43 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/views/ProfileView.vue"),
+    meta: {
+      title: "Profile",
+      requireAuth: true,
+    },
+  },
+  {
     path: "/settings",
     name: "settings",
     component: () => import("@/views/UserSettings.vue"),
     meta: {
       title: "Settings",
       requireAuth: true,
+    },
+  },
+  {
+    path: "/tierlist",
+    name: "tierlist",
+    component: () => import("@/views/TierlistViewer.vue"),
+    meta: {
+      title: "Tierlist",
+    },
+  },
+  {
+    path: "/tierlist/share/:sharedTier",
+    component: () => import("@/views/TierlistViewer.vue"),
+    meta: {
+      title: "Tierlist",
+    },
+  },
+  {
+    path: "/tierlist/:tierId",
+    component: () => import("@/views/TierlistViewer.vue"),
+    meta: {
+      title: "Tierlist",
     },
   },
   {

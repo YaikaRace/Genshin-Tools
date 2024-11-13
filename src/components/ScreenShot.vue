@@ -2,6 +2,7 @@
   <section>
     <div class="my-6">
       <button
+        title="Take Screenshot"
         @click.prevent="takeScreenshot"
         :disabled="takingScreenshot"
         class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg"
@@ -21,12 +22,14 @@
       <a
         v-if="screenshot"
         :href="screenshot"
+        title="Download Screenshot"
         download="tierlist"
         class="text-white inline-block text-center min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
         ><font-awesome-icon icon="download" class="max-h-full"
       /></a>
       <button
         v-if="screenshot"
+        title="Delete Screenshot"
         @click.prevent="deleteScreenshot"
         :disabled="takingScreenshot"
         class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
@@ -34,18 +37,35 @@
         <font-awesome-icon icon="trash" class="max-h-full" />
       </button>
       <button
-        v-if="screenshot"
-        @click.prevent="deleteScreenshot"
+        title="Copy Share Link (Long URL)"
+        @click.prevent="$emit('share')"
         :disabled="takingScreenshot"
         class="text-white min-w-12 text-base bg-slate-700 disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
+      >
+        <font-awesome-icon icon="share" class="max-h-full" />
+      </button>
+      <button
+        title="Save to Account"
+        @click.prevent="$emit('save')"
+        :disabled="takingScreenshot || !loggedIn"
+        class="text-white min-w-12 text-base bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-900 disabled:text-gray-400 hover:bg-purple-600 p-2 border-white border-2 rounded-lg ml-4"
       >
         <font-awesome-icon icon="save" class="max-h-full" />
       </button>
       <div
-        v-if="screenshot && !loggedIn"
-        class="absolute inline-block bg-gray-300 p-2 rounded-lg ml-4 after:content-[''] after:absolute after:w-0 after:h-0 after:left-0 after:top-1/2 after:border-8 after:border-transparent after:border-r-gray-300 after:-ml-4"
+        v-if="!loggedIn"
+        class="absolute inline-block bg-gray-300 p-2 rounded-lg ml-4 after:content-[''] after:absolute after:w-0 after:h-0 after:left-0 after:top-1/2 after:border-[12px] after:border-transparent after:border-r-gray-300 after:-ml-5 after:-mt-3"
       >
-        You have to Sign In or Sign Up
+        You have to
+        <router-link :to="{ name: 'login' }" class="text-purple-600 underline"
+          >Sign In</router-link
+        >
+        or
+        <router-link
+          :to="{ name: 'register' }"
+          class="text-purple-600 underline"
+          >Sign Up</router-link
+        >
       </div>
     </div>
     <div v-if="screenshot" class="w-full border-2 border-white my-6 p-4">
@@ -68,11 +88,13 @@ export default defineComponent({
     };
   },
   props: ["el"],
+  emits: ["save", "share"],
   computed: {
     ...mapState(["loggedIn"]),
   },
   methods: {
     async takeScreenshot() {
+      console.log(this.el);
       if (!this.el) return;
       this.takingScreenshot = true;
       html2canvas(this.el, {
@@ -88,8 +110,6 @@ export default defineComponent({
           for (const child of children) {
             child.classList.remove("hidden");
           }
-          const height = element.offsetHeight;
-          this.windowHeight = height;
         },
       })
         .then((canvas) => {
@@ -97,7 +117,8 @@ export default defineComponent({
           this.screenshot = dataURL;
           this.takingScreenshot = false;
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           console.log("Error taking screenshot");
         });
     },

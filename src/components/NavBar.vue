@@ -1,8 +1,8 @@
 <template>
   <header
-    class="h-12 w-screen bg-slate-900 fixed top-0 z-[1] text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
+    class="h-12 w-screen bg-slate-900 sticky top-0 z-[1] text-white border-white border-b-[1px] shadow-xl shadow-slate-900"
   >
-    <div
+    <nav
       class="w-11/12 max-w-[70rem] mx-auto h-full flex items-center relative"
     >
       <router-link
@@ -67,7 +67,7 @@
           </div>
         </button>
       </div>
-    </div>
+    </nav>
   </header>
 </template>
 

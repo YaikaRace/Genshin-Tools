@@ -8,6 +8,7 @@
   </transition>
   <side-menu :pages="pages" :footer-buttons="footerButtons" />
   <router-view @failed="$Progress.fail()" />
+  <footer-component></footer-component>
   <vue-progress-bar></vue-progress-bar>
 </template>
 
@@ -16,12 +17,14 @@ import { defineComponent } from "vue";
 import NavBar from "./components/NavBar.vue";
 import SideMenu from "./components/SideMenu.vue";
 import { mapState } from "vuex";
+import FooterComponent from "./components/FooterComponent.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     NavBar,
     SideMenu,
+    FooterComponent,
   },
   data() {
     return {
