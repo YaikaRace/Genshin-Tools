@@ -70,7 +70,7 @@ library.add(
     .use(progressbar, {
       color: "#9333ea",
       failedColor: "#f87171",
-      thickness: "2px",
+      thickness: "5px",
       transition: {
         speed: "0.6s",
         opacity: "0.6s",
@@ -79,6 +79,7 @@ library.add(
       autoRevert: true,
       location: "top",
       inverse: false,
+      autofinish: false,
     })
     .component("font-awesome-icon", FontAwesomeIcon)
     .mount("#app");
