@@ -190,8 +190,27 @@ export default defineComponent({
     }) {
       this.tiers.splice(this.tiers.indexOf(element), 1);
     },
-    saveTierlist() {
-      window.sessionStorage.setItem("savedTier", JSON.stringify(this.tiers));
+    async saveTierlist() {
+      const baseURL = process.env.VUE_APP_API_URL;
+      if (!baseURL) return;
+      try {
+        const endpoint = `${baseURL}/tierlist`;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "x-access-key": process.env.VUE_APP_ACCESS_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tiers: this.tiers,
+          }),
+        });
+        const json = await response.json();
+        console.log(json);
+      } catch {
+        console.log("error saving");
+      }
     },
     shareTierlist() {
       const encodedTierlist = btoa(JSON.stringify(this.tiers));

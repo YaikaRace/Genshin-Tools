@@ -19,7 +19,8 @@
     >
       <template #item="{ element }">
         <div
-          class="hover:cursor-move relative"
+          :class="{ 'hover:cursor-move': !disabled }"
+          class="relative"
           v-if="element.type == 'character'"
         >
           <img
@@ -32,7 +33,7 @@
             :list="element.nested"
           />
         </div>
-        <div class="hover:cursor-move" v-else>
+        <div :class="{ 'hover:cursor-move': !disabled }" v-else>
           <img
             :src="`https://genshin.jmp.blue/weapons/${element.id.toLowerCase()}/icon`"
             :alt="`${element.id.toLowerCase()}-icon`"

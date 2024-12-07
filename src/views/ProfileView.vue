@@ -9,20 +9,20 @@
     <hr class="my-4 border-2" />
     <section>
       <h2 class="text-white font-bold text-3xl">TierLists</h2>
-      <tierlist-component :readonly-tiers="getTiers" />
+      <user-tierlists />
     </section>
   </article>
 </template>
 
 <script lang="ts">
-import TierlistComponent from "@/components/TierlistComponent.vue";
+import UserTierlists from "@/components/UserTierlists.vue";
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
 
 export default defineComponent({
   name: "ProfileView",
   components: {
-    TierlistComponent,
+    UserTierlists,
   },
   computed: {
     ...mapState(["userInfo"]),
