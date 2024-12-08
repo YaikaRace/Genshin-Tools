@@ -81,7 +81,7 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/tierlist",
+    path: "/tierlist/:tierId",
     name: "tierlist",
     component: () => import("@/views/TierlistViewer.vue"),
     meta: {
@@ -91,6 +91,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/tierlist/share/:sharedTier",
     component: () => import("@/views/TierlistViewer.vue"),
+    props: { isShared: true },
     meta: {
       title: "Tierlist",
     },

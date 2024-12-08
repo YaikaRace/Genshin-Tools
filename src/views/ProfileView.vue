@@ -7,9 +7,9 @@
       </h1>
     </header>
     <hr class="my-4 border-2" />
-    <section>
-      <h2 class="text-white font-bold text-3xl">TierLists</h2>
-      <user-tierlists />
+    <h2 class="text-white font-bold text-3xl">TierLists</h2>
+    <section class="overflow-x-scroll">
+      <user-tierlists class="scale-90" />
     </section>
   </article>
 </template>

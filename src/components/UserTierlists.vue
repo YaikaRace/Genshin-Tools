@@ -1,10 +1,15 @@
 <template>
   <article>
-    <tierlist-component
-      :key="index"
-      v-for="(tierlist, index) in tierlists"
-      :readonly-tiers="tierlist.tiers"
-    />
+    <section class="flex gap-5">
+      <router-link
+        :key="index"
+        v-for="(tierlist, index) in tierlists"
+        :to="{ name: 'tierlist', params: { tierId: tierlist._id } }"
+        class="min-w-full"
+      >
+        <tierlist-component :readonly-tiers="tierlist.tiers" />
+      </router-link>
+    </section>
   </article>
 </template>
 
@@ -19,10 +24,15 @@ export default defineComponent({
   },
   data() {
     return {
-      tierlists: [] as { tiers: [] }[],
+      tierlists: [] as { _id: string; tiers: [] }[],
     };
   },
   async created() {
+    const tierlists = window.sessionStorage.getItem("tierlists");
+    if (tierlists) {
+      this.tierlists = JSON.parse(tierlists);
+      return;
+    }
     const baseURL = process.env.VUE_APP_API_URL;
     if (!baseURL) return;
     try {
@@ -34,6 +44,7 @@ export default defineComponent({
       });
       const json = await result.json();
       this.tierlists = json;
+      window.sessionStorage.setItem("tierlists", JSON.stringify(json));
     } catch {
       console.log("Error getting tierlists");
     }

@@ -171,6 +171,12 @@ export default defineComponent({
       this.readonly = true;
     }
   },
+  updated() {
+    if (this.readonlyTiers.length > 0) {
+      this.tiers = this.readonlyTiers;
+      this.readonly = true;
+    }
+  },
   methods: {
     addTier() {
       this.tiers.push({
